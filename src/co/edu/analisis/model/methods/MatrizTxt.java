@@ -1,3 +1,5 @@
+package co.edu.analisis.model.methods;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
