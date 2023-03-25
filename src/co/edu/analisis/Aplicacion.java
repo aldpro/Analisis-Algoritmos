@@ -1,8 +1,8 @@
-package aplication;
+package co.edu.analisis;
 
 import java.util.Arrays;
 
-import model.Captura;
+import co.edu.analisis.model.Captura;
 
 public class Aplicacion {
 	
@@ -13,14 +13,10 @@ public class Aplicacion {
 		int[][] matrizn = {{1234, 2345, 3456, 4567}, {5678, 6789, 7890, 8901}, {9012, 1234, 2345, 3456}, {4567, 5678, 6789, 7890}};
 		int[][] matrizm = {{4321, 5432, 6543, 7654}, {8765, 9876, 1098, 2109}, {3210, 4321, 5432, 6543}, {7654, 8765, 9876, 1098}};
 
-
 		Object[] resultado = captura.capturaNaivStandard(matrizn, matrizm);
 		
 		long tiempo = (long) resultado[0];
 		int[][] matrizNaivStandard = (int[][]) resultado[1];
-		
-//		System.out.println("Matriz {A}: " + Arrays.deepToString(matrizn) + "\n" + "Matriz {B}: " + Arrays.deepToString(matrizm));
-//		System.out.println("Matriz {C}: " + Arrays.deepToString(matrizNaivStandard) + "\n" + "Tiempo: " + tiempo + " [milisegundos]" + "\n" + "Algoritmo: NaivStandard");
 		
 		System.out.println("Matriz {A}:");
 		

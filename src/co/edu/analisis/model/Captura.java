@@ -1,4 +1,4 @@
-package model;
+package co.edu.analisis.model;
 
 import java.util.Arrays;
 
