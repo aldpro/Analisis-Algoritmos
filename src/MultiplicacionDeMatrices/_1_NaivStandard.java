@@ -67,10 +67,6 @@ public class _1_NaivStandard {
         //Matriz del resultado de la multiplicación
         double[][] matrizC = new double[size][size];
 
-        /**
-         *
-         */
-
         NaivStandard(matrizA, matrizB, matrizC, size,size,size);
 
         imprimirMatriz(matrizC, "C", size);
