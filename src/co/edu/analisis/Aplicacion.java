@@ -44,7 +44,7 @@ public class Aplicacion {
 	public static void resultado (int[][] matrizn, int[][] matrizm) {
 		Captura captura = new Captura();
 		
-		Object[] resultado = captura.capturaNaivStandard(matrizn, matrizm);
+		Object[] resultado = captura.consultaMetodo(matrizn, matrizm, 1);
 		
 		long tiempo = (long) resultado[0];
 		int[][] matrizResultado = (int[][]) resultado[1];
