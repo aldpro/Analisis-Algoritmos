@@ -73,17 +73,17 @@ public class _2_NaivOnArray {
 
         NaivOnArray(matrizA, matrizB, matrizC, size,size,size);
 
-        imprimirMatriz(matrizC, "C", size);
-    }
-
-    public void NaivOnArray(double[][] matrizA, double[][] matrizB, double[][] matrizC, int N, int P , int M){
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                matrizC[i][j] = 0.0;
-                for (int k = 0; k < P; k++) {
-                    matrizC[i][j] += matrizA[i][k] * matrizB[k][j];
+        imprimirMatriz(matrizC, "C", size);public void NaivOnArray(double[][] matrizA, double[][] matrizB, double[][] matrizC, int N, int P , int M){
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < M; j++) {
+                    matrizC[i][j] = 0.0;
+                    for (int k = 0; k < P; k++) {
+                        matrizC[i][j] += matrizA[i][k] * matrizB[k][j];
+                    }
                 }
             }
         }
     }
+
+
 }
