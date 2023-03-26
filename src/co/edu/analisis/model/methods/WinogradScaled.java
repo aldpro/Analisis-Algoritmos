@@ -2,15 +2,15 @@ package co.edu.analisis.model.methods;
 
 public class WinogradScaled {
 
-	public int[][] winogradScale(int[][] a, int[][] b) {
+	public double[][] winogradScale(double[][] a, double[][] b) {
 	    int m = a.length;
 	    int n = b.length;
 	    int q = b[0].length;
 
-	    int[][] c = new int[m][q];
+	    double[][] c = new double[m][q];
 
-	    int[] rowFactor = new int[m];
-	    int[] colFactor = new int[q];
+	    double[] rowFactor = new double[m];
+	    double[] colFactor = new double[q];
 
 	    for (int i = 0; i < m; i++) {
 	        rowFactor[i] = a[i][0] * a[i][1];
@@ -30,7 +30,7 @@ public class WinogradScaled {
 
 	    for (int i = 0; i < m; i++) {
 	        for (int j = 0; j < q; j++) {
-	            int sum = -rowFactor[i] - colFactor[j];
+	            double sum = -rowFactor[i] - colFactor[j];
 	            for (int k = 0; k < n / 2; k++) {
 	                int indexu = 2 * k;
 	                int indexo = indexu + 1;
@@ -50,4 +50,5 @@ public class WinogradScaled {
 
 	    return c;
 	}
+
 }

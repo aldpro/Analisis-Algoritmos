@@ -2,16 +2,16 @@ package co.edu.analisis.model.methods;
 
 public class NaivLoopUnrollingFour {
 
-	public int[][] naiveLoopUnrollingFour(int[][] a, int[][] b) {
+	public double[][] naiveLoopUnrollingFour(double[][] a, double[][] b) {
 	    int m = a.length; //Filas matriz a[]
 	    int n = a[0].length; // Columnas matriz a[]
 	    int p = b[0].length; // Columnas matriz b[]
 
-	    int[][] c = new int[m][p];
+	    double[][] c = new double[m][p];
 
 	    for (int i = 0; i < m; i++) {
 	        for (int j = 0; j < p; j++) {
-	            int s = 0; // Inicializar la variable de acumulación
+	            double s = 0; // Inicializar la variable de acumulación
 	            
 	            for (int k = 0; k < n; k += 4) {  // Recorrer las columnas de a en grupos de cuatro
 	               

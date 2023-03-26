@@ -8,12 +8,16 @@ import co.edu.analisis.model.methods.NaivLoopUnrollingThree;
 import co.edu.analisis.model.methods.NaivLoopUnrollingTwo;
 import co.edu.analisis.model.methods.NaivOnArray;
 import co.edu.analisis.model.methods.NaivStandard;
+import co.edu.analisis.model.methods.SequentialBlockThreeFour;
+import co.edu.analisis.model.methods.SequentialBlockThreeThree;
+import co.edu.analisis.model.methods.StrassenNaiv;
+import co.edu.analisis.model.methods.StrassenWinograd;
 import co.edu.analisis.model.methods.WinogradOriginal;
 import co.edu.analisis.model.methods.WinogradScaled;
 
 public class Captura {
 
-	public Object[] consultaMetodo(int[][] matrizn, int[][] matrizm, int metodo) {
+	public Object[] consultaMetodo(double[][] matrizn, double[][] matrizm, int metodo) {
 		Object[] resultado = null;
 
 		switch (metodo) {
@@ -21,7 +25,7 @@ public class Captura {
 			resultado = capturaNaivStandard(matrizn, matrizm);
 			break;
 		case 2:
-			resultado = capturaNaivStandard(matrizn, matrizm);
+			resultado = capturaNaivOnArray(matrizn, matrizm);
 			break;
 		case 3:
 			resultado = capturaNaivKahan(matrizn, matrizm);
@@ -42,29 +46,29 @@ public class Captura {
 			  resultado = capturaWinogradScaled(matrizn, matrizm);
 			break;
 		case 9:
-			  resultado = capturaWinogradOriginal(matrizn, matrizm);
+			  resultado = capturaStrassenNaiv(matrizn, matrizm);
 			break;
 		case 10:
-			  resultado = capturaWinogradOriginal(matrizn, matrizm);
+			  resultado = capturaStrassenWinograd(matrizn, matrizm);
 			break;
 		case 11:
-			  resultado = capturaWinogradOriginal(matrizn, matrizm);
+			  resultado = capturaSequentialBlockThreeThree(matrizn, matrizm);
 			break;
 		case 12:
-			  resultado = capturaWinogradOriginal(matrizn, matrizm);
+			  resultado = capturaSequentialBlockThreeFour(matrizn, matrizm);
 			break;
-		case 13:
-			  resultado = capturaWinogradOriginal(matrizn, matrizm);
-			break;
-		case 14:
-			  resultado = capturaWinogradOriginal(matrizn, matrizm);
-			break;
-		case 15:
-			  resultado = capturaWinogradOriginal(matrizn, matrizm);
-			break;
-		case 16:
-			  resultado = capturaWinogradOriginal(matrizn, matrizm);
-			break;
+//		case 13:
+//			  resultado = capturaWinogradOriginal(matrizn, matrizm);
+//			break;
+//		case 14:
+//			  resultado = capturaWinogradOriginal(matrizn, matrizm);
+//			break;
+//		case 15:
+//			  resultado = capturaWinogradOriginal(matrizn, matrizm);
+//			break;
+//		case 16:
+//			  resultado = capturaWinogradOriginal(matrizn, matrizm);
+//			break;
 		default:
 			resultado = null;
 			break;
@@ -73,11 +77,11 @@ public class Captura {
 		return resultado;
 	}
 
-	public Object[] capturaNaivStandard(int[][] a, int[][] b) {
+	public Object[] capturaNaivStandard(double[][] a, double[][] b) {
 
 		NaivStandard metodo = new NaivStandard();
 
-		int[][] resultadoMatriz;
+		double[][] resultadoMatriz;
 
 		long inicioTiempo = System.nanoTime();
 
@@ -91,11 +95,11 @@ public class Captura {
 		return respuesta;
 	}
 
-	public Object[] capturaNaivOnArray(int[][] a, int[][] b) {
+	public Object[] capturaNaivOnArray(double[][] a, double[][] b) {
 
 		NaivOnArray metodo = new NaivOnArray();
 
-		int[][] resultadoMatriz;
+		double[][] resultadoMatriz;
 
 		long inicioTiempo = System.nanoTime();
 
@@ -109,11 +113,11 @@ public class Captura {
 		return respuesta;
 	}
 
-	public Object[] capturaNaivKahan(int[][] a, int[][] b) {
+	public Object[] capturaNaivKahan(double[][] a, double[][] b) {
 
 		NaivKahan metodo = new NaivKahan();
 
-		int[][] resultadoMatriz;
+		double[][] resultadoMatriz;
 
 		long inicioTiempo = System.nanoTime();
 
@@ -127,11 +131,11 @@ public class Captura {
 		return respuesta;
 	}
 
-	public Object[] capturaNaivLoopUnrollingTwo(int[][] a, int[][] b) {
+	public Object[] capturaNaivLoopUnrollingTwo(double[][] a, double[][] b) {
 
 		NaivLoopUnrollingTwo metodo = new NaivLoopUnrollingTwo();
 
-		int[][] resultadoMatriz;
+		double[][] resultadoMatriz;
 
 		long inicioTiempo = System.nanoTime();
 
@@ -145,11 +149,11 @@ public class Captura {
 		return respuesta;
 	}
 	
-	public Object[] capturaNaivLoopUnrollingThree(int[][] a, int[][] b) {
+	public Object[] capturaNaivLoopUnrollingThree(double[][] a, double[][] b) {
 
 		NaivLoopUnrollingThree metodo = new NaivLoopUnrollingThree();
 
-		int[][] resultadoMatriz;
+		double[][] resultadoMatriz;
 
 		long inicioTiempo = System.nanoTime();
 
@@ -163,11 +167,11 @@ public class Captura {
 		return respuesta;
 	}
 	
-	public Object[] capturaNaivLoopUnrollingFour(int[][] a, int[][] b) {
+	public Object[] capturaNaivLoopUnrollingFour(double[][] a, double[][] b) {
 
 		NaivLoopUnrollingFour metodo = new NaivLoopUnrollingFour();
 
-		int[][] resultadoMatriz;
+		double[][] resultadoMatriz;
 
 		long inicioTiempo = System.nanoTime();
 
@@ -181,11 +185,11 @@ public class Captura {
 		return respuesta;
 	}
 	
-	public Object[] capturaWinogradOriginal(int[][] a, int[][] b) {
+	public Object[] capturaWinogradOriginal(double[][] a, double[][] b) {
 
 		WinogradOriginal metodo = new WinogradOriginal();
 
-		int[][] resultadoMatriz;
+		double[][] resultadoMatriz;
 
 		long inicioTiempo = System.nanoTime();
 
@@ -199,15 +203,87 @@ public class Captura {
 		return respuesta;
 	}
 	
-	public Object[] capturaWinogradScaled(int[][] a, int[][] b) {
+	public Object[] capturaWinogradScaled(double[][] a, double[][] b) {
 
 		WinogradScaled metodo = new WinogradScaled();
 
-		int[][] resultadoMatriz;
+		double[][] resultadoMatriz;
 
 		long inicioTiempo = System.nanoTime();
 
 		resultadoMatriz = metodo.winogradScale(a, b);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultadoMatriz };
+
+		return respuesta;
+	}
+	
+	public Object[] capturaStrassenNaiv(double[][] a, double[][] b) {
+
+		StrassenNaiv metodo = new StrassenNaiv();
+
+		double[][] resultadoMatriz;
+
+		long inicioTiempo = System.nanoTime();
+
+		resultadoMatriz = metodo.multiply(a, b);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultadoMatriz };
+
+		return respuesta;
+	}
+	
+	public Object[] capturaStrassenWinograd(double[][] a, double[][] b) {
+
+		StrassenWinograd metodo = new StrassenWinograd();
+
+		double[][] resultadoMatriz;
+
+		long inicioTiempo = System.nanoTime();
+
+		resultadoMatriz = metodo.multiply(a, b);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultadoMatriz };
+
+		return respuesta;
+	}
+	
+	public Object[] capturaSequentialBlockThreeThree(double[][] a, double[][] b) {
+
+		SequentialBlockThreeThree metodo = new SequentialBlockThreeThree();
+
+		double[][] resultadoMatriz;
+
+		long inicioTiempo = System.nanoTime();
+
+		resultadoMatriz = metodo.multiply(a, b, 1);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultadoMatriz };
+
+		return respuesta;
+	}
+	
+	public Object[] capturaSequentialBlockThreeFour(double[][] a, double[][] b) {
+
+		SequentialBlockThreeFour metodo = new SequentialBlockThreeFour();
+
+		double[][] resultadoMatriz;
+
+		long inicioTiempo = System.nanoTime();
+
+		resultadoMatriz = metodo.multiply(a, b, 1);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;

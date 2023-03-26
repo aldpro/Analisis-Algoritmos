@@ -9,25 +9,25 @@ public class NaivOnArray {
 	 * @param b
 	 * @return matriz que contiene la multiplicacion
 	 */
-	public int[][] naivOnArray(int[][] a, int[][] b) {
-		int n = a[0].length; // Columnas matriz []a
-		int o = b[0].length; // Columnas matriz b[]
-		int m = a.length; // Filas matriz []a
-		int x = b.length; // Filas matriz []a
+	public double[][] naivOnArray(double[][] a, double[][] b) {
+	    int n = a[0].length; // Columnas matriz []a
+	    int o = b[0].length; // Columnas matriz b[]
+	    int m = a.length; // Filas matriz []a
+	    int x = b.length; // Filas matriz []a
 
-		int[][] c = new int[m][o];
+	    double[][] c = new double[m][o];
 
-		if (n == x) { // comprueba si las matrices se pueden multiplicar
-			for (int i = 0; i < m; i++) {
-				for (int j = 0; j < o; j++) {
-					int producto = 0;
-					for (int k = 0; k < n; k++) {
-						producto = producto + (a[i][k] * b[k][j]); // Multiplica la matriz
-					}
-					c[i][j] = producto;
-				}
-			}
-		}
-		return c;
+	    if (n == x) { // comprueba si las matrices se pueden multiplicar
+	        for (int i = 0; i < m; i++) {
+	            for (int j = 0; j < o; j++) {
+	                double producto = 0;
+	                for (int k = 0; k < n; k++) {
+	                    producto = producto + (a[i][k] * b[k][j]); // Multiplica la matriz
+	                }
+	                c[i][j] = producto;
+	            }
+	        }
+	    }
+	    return c;
 	}
 }
