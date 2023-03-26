@@ -1,6 +1,7 @@
 package co.edu.analisis.model;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import co.edu.analisis.model.methods.NaivKahan;
 import co.edu.analisis.model.methods.NaivLoopUnrollingFour;
@@ -22,65 +23,65 @@ import co.edu.analisis.model.methods.WinogradScaled;
 public class Captura {
 
 	public Object[] consultaMetodo(double[][] matrizn, double[][] matrizm, int metodo) {
-		Object[] resultado = null;
-
+		Object[] ejecucion = null;
+		
 		switch (metodo) {
 		case 1:
-			resultado = capturaNaivStandard(matrizn, matrizm);
+			ejecucion = capturaNaivStandard(matrizn, matrizm);
 			break;
 		case 2:
-			resultado = capturaNaivOnArray(matrizn, matrizm);
+			ejecucion = capturaNaivOnArray(matrizn, matrizm);
 			break;
 		case 3:
-			resultado = capturaNaivKahan(matrizn, matrizm);
+			ejecucion = capturaNaivKahan(matrizn, matrizm);
 			break;
 		case 4:
-			resultado = capturaNaivLoopUnrollingTwo(matrizn, matrizm);
+			ejecucion = capturaNaivLoopUnrollingTwo(matrizn, matrizm);
 			break;
 		case 5:
-			resultado = capturaNaivLoopUnrollingThree(matrizn, matrizm);
+			ejecucion = capturaNaivLoopUnrollingThree(matrizn, matrizm);
 			break;
 		case 6:
-			  resultado = capturaNaivLoopUnrollingFour(matrizn, matrizm);
+			  ejecucion = capturaNaivLoopUnrollingFour(matrizn, matrizm);
 			break;
 		case 7:
-			  resultado = capturaWinogradOriginal(matrizn, matrizm);
+			  ejecucion = capturaWinogradOriginal(matrizn, matrizm);
 			break;
 		case 8:
-			  resultado = capturaWinogradScaled(matrizn, matrizm);
+			  ejecucion = capturaWinogradScaled(matrizn, matrizm);
 			break;
 		case 9:
-			  resultado = capturaStrassenNaiv(matrizn, matrizm);
+			  ejecucion = capturaStrassenNaiv(matrizn, matrizm);
 			break;
 		case 10:
-			  resultado = capturaStrassenWinograd(matrizn, matrizm);
+			  ejecucion = capturaStrassenWinograd(matrizn, matrizm);
 			break;
 		case 11:
-			  resultado = capturaSequentialBlockThreeThree(matrizn, matrizm);
+			  ejecucion = capturaSequentialBlockThreeThree(matrizn, matrizm);
 			break;
 		case 12:
-			  resultado = capturaSequentialBlockThreeFour(matrizn, matrizm);
+			  ejecucion = capturaSequentialBlockThreeFour(matrizn, matrizm);
 			break;
 		case 13:
-			  resultado = capturaSequentialBlockThreeFive(matrizn, matrizm);
+			  ejecucion = capturaSequentialBlockThreeFive(matrizn, matrizm);
 			break;
 		case 14:
-			  resultado = capturaParallelBlockFourThree(matrizn, matrizm);
+			  ejecucion = capturaParallelBlockFourThree(matrizn, matrizm);
 			break;
 		case 15:
-			  resultado = capturaParallelBlockFourFour(matrizn, matrizm);
+			  ejecucion = capturaParallelBlockFourFour(matrizn, matrizm);
 			break;
 		case 16:
-			  resultado = capturaParallelBlockFourFive(matrizn, matrizm);
+			  ejecucion = capturaParallelBlockFourFive(matrizn, matrizm);
 			break;
 		default:
-			resultado = null;
+			ejecucion = null;
 			break;
 		}
 
-		return resultado;
+		return ejecucion;
 	}
-
+	
 	public Object[] capturaNaivStandard(double[][] a, double[][] b) {
 
 		NaivStandard metodo = new NaivStandard();
