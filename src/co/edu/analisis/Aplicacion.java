@@ -1,7 +1,5 @@
 package co.edu.analisis;
 
-import java.util.Arrays;
-
 import co.edu.analisis.model.Captura;
 import co.edu.analisis.model.Metodo;
 
@@ -62,4 +60,5 @@ public class Aplicacion {
 		
 		System.out.println("Tiempo: " + tiempo + " [milisegundos]" + "\n" + "Algoritmo: " + nombreMetodo + "\n");
 	}
+
 }
