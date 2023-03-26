@@ -2,53 +2,47 @@ package co.edu.analisis.model.methods;
 
 public class WinogradScaled {
 
-	public double[][] winogradScale(double[][] a, double[][] b) {
-	    int m = a.length;
-	    int n = b.length;
-	    int q = b[0].length;
+    public double[][] winogradScaled(double[][] a, double[][] b, double[][] c, int n, int p, int m) {
+    	WinogradOriginal metodo = new WinogradOriginal();
+    	
+    	int i, j;
+        
+        double[][] copya = new double[n][p];
+        double[][] copyb = new double[p][m];
 
-	    double[][] c = new double[m][q];
+        double aa = normInf(a, n, p);
+        double bb = normInf(b, p, m);
+        double lambda = Math.floor(0.5 + Math.log(bb/aa)/Math.log(4));
 
-	    double[] rowFactor = new double[m];
-	    double[] colFactor = new double[q];
+        multiplyWithScalar(a, copya, n, p, Math.pow(2, lambda));
+        multiplyWithScalar(b, copyb, p, m, Math.pow(2, -lambda));
 
-	    for (int i = 0; i < m; i++) {
-	        rowFactor[i] = a[i][0] * a[i][1];
-	        for (int j = 1; j < n / 2; j++) {
-	            int index = 2 * j;
-	            rowFactor[i] += a[i][index] * a[i][index + 1];
-	        }
-	    }
+        c = metodo.winogradOriginal(copya, copyb, c, n, p, m);
+        return c;
+    }
 
-	    for (int i = 0; i < q; i++) {
-	        colFactor[i] = b[0][i] * b[1][i];
-	        for (int j = 1; j < n / 2; j++) {
-	            int index = 2 * j;
-	            colFactor[i] += b[index][i] * b[index + 1][i];
-	        }
-	    }
+    public void multiplyWithScalar(double[][] a, double[][] b, int n, int m, double scalar) {
+        int i, j;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < m; j++) {
+                b[i][j] = a[i][j] * scalar;
+            }
+        }
+    }
 
-	    for (int i = 0; i < m; i++) {
-	        for (int j = 0; j < q; j++) {
-	            double sum = -rowFactor[i] - colFactor[j];
-	            for (int k = 0; k < n / 2; k++) {
-	                int indexu = 2 * k;
-	                int indexo = indexu + 1;
-	                sum += (a[i][indexu] + b[indexo][j]) * (a[i][indexo] + b[indexu][j]);
-	            }
-	            c[i][j] = sum;
-	        }
-	    }
-
-	    if (n % 2 != 0) {
-	        for (int i = 0; i < m; i++) {
-	            for (int j = 0; j < q; j++) {
-	                c[i][j] += a[i][n - 1] * b[n - 1][j];
-	            }
-	        }
-	    }
-
-	    return c;
-	}
+    public double normInf(double[][] a, int n, int m) {
+        int i, j;
+        double max = Double.NEGATIVE_INFINITY;
+        for (i = 0; i < n; i++) {
+            double sum = 0.0;
+            for (j = 0; j < m; j++) {
+                sum += Math.abs(a[i][j]);
+            }
+            if (sum > max) {
+                max = sum;
+            }
+        }
+        return max;
+    }
 
 }

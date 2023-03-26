@@ -8,6 +8,10 @@ import co.edu.analisis.model.methods.NaivLoopUnrollingThree;
 import co.edu.analisis.model.methods.NaivLoopUnrollingTwo;
 import co.edu.analisis.model.methods.NaivOnArray;
 import co.edu.analisis.model.methods.NaivStandard;
+import co.edu.analisis.model.methods.ParallelBlockFourFive;
+import co.edu.analisis.model.methods.ParallelBlockFourFour;
+import co.edu.analisis.model.methods.ParallelBlockFourThree;
+import co.edu.analisis.model.methods.SequentialBlockThreeFive;
 import co.edu.analisis.model.methods.SequentialBlockThreeFour;
 import co.edu.analisis.model.methods.SequentialBlockThreeThree;
 import co.edu.analisis.model.methods.StrassenNaiv;
@@ -57,18 +61,18 @@ public class Captura {
 		case 12:
 			  resultado = capturaSequentialBlockThreeFour(matrizn, matrizm);
 			break;
-//		case 13:
-//			  resultado = capturaWinogradOriginal(matrizn, matrizm);
-//			break;
-//		case 14:
-//			  resultado = capturaWinogradOriginal(matrizn, matrizm);
-//			break;
-//		case 15:
-//			  resultado = capturaWinogradOriginal(matrizn, matrizm);
-//			break;
-//		case 16:
-//			  resultado = capturaWinogradOriginal(matrizn, matrizm);
-//			break;
+		case 13:
+			  resultado = capturaSequentialBlockThreeFive(matrizn, matrizm);
+			break;
+		case 14:
+			  resultado = capturaParallelBlockFourThree(matrizn, matrizm);
+			break;
+		case 15:
+			  resultado = capturaParallelBlockFourFour(matrizn, matrizm);
+			break;
+		case 16:
+			  resultado = capturaParallelBlockFourFive(matrizn, matrizm);
+			break;
 		default:
 			resultado = null;
 			break;
@@ -81,11 +85,16 @@ public class Captura {
 
 		NaivStandard metodo = new NaivStandard();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
-
+		double[][] c = new double[n][m];
+		
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.naivStandard(a, b);
+		resultadoMatriz = metodo.naivStandard(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -99,11 +108,16 @@ public class Captura {
 
 		NaivOnArray metodo = new NaivOnArray();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
+		double[][] c = new double[n][m];
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.naivOnArray(a, b);
+		resultadoMatriz = metodo.naivOnArray(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -117,11 +131,17 @@ public class Captura {
 
 		NaivKahan metodo = new NaivKahan();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
+		double[][] c = new double[n][m];
+
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.naivKahan(a, b);
+		resultadoMatriz = metodo.naivKahan(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -135,11 +155,16 @@ public class Captura {
 
 		NaivLoopUnrollingTwo metodo = new NaivLoopUnrollingTwo();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
+		double[][] c = new double[n][m];
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.naivLoopUnrollingTwo(a, b);
+		resultadoMatriz = metodo.naivLoopUnrollingTwo(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -153,11 +178,16 @@ public class Captura {
 
 		NaivLoopUnrollingThree metodo = new NaivLoopUnrollingThree();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
+		double[][] c = new double[n][m];
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.naiveLoopUnrollingThree(a, b);
+		resultadoMatriz = metodo.naiveLoopUnrollingThree(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -171,11 +201,16 @@ public class Captura {
 
 		NaivLoopUnrollingFour metodo = new NaivLoopUnrollingFour();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
+		double[][] c = new double[n][m];
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.naiveLoopUnrollingFour(a, b);
+		resultadoMatriz = metodo.naivLoopUnrollingFour(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -189,11 +224,16 @@ public class Captura {
 
 		WinogradOriginal metodo = new WinogradOriginal();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
+		double[][] c = new double[n][m];
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.winogradOriginal(a, b);
+		resultadoMatriz = metodo.winogradOriginal(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -207,11 +247,16 @@ public class Captura {
 
 		WinogradScaled metodo = new WinogradScaled();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
+		double[][] c = new double[n][m];
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.winogradScale(a, b);
+		resultadoMatriz = metodo.winogradScaled(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -225,11 +270,16 @@ public class Captura {
 
 		StrassenNaiv metodo = new StrassenNaiv();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
+		double[][] c = new double[n][m];
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b);
+		resultadoMatriz = metodo.strassenNaiv(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -243,11 +293,16 @@ public class Captura {
 
 		StrassenWinograd metodo = new StrassenWinograd();
 
+		int n = a.length;
+		int p = b.length;
+		int m = b[0].length;
+		
 		double[][] resultadoMatriz;
+		double[][] c = new double[n][m];
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b);
+		resultadoMatriz = metodo.strassenWinograd(a, b, c, n, p, m);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -265,7 +320,7 @@ public class Captura {
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b, 1);
+		resultadoMatriz = metodo.multiply(a, b, 2);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -283,7 +338,79 @@ public class Captura {
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b, 1);
+		resultadoMatriz = metodo.multiply(a, b, 2);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultadoMatriz };
+
+		return respuesta;
+	}
+	
+	public Object[] capturaSequentialBlockThreeFive(double[][] a, double[][] b) {
+
+		SequentialBlockThreeFive metodo = new SequentialBlockThreeFive();
+
+		double[][] resultadoMatriz;
+
+		long inicioTiempo = System.nanoTime();
+
+		resultadoMatriz = metodo.multiply(a, b, 2);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultadoMatriz };
+
+		return respuesta;
+	}
+	
+	public Object[] capturaParallelBlockFourThree(double[][] a, double[][] b) {
+
+		ParallelBlockFourThree metodo = new ParallelBlockFourThree();
+
+		double[][] resultadoMatriz;
+
+		long inicioTiempo = System.nanoTime();
+
+		resultadoMatriz = metodo.multiply(a, b, 2);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultadoMatriz };
+
+		return respuesta;
+	}
+	
+	public Object[] capturaParallelBlockFourFour(double[][] a, double[][] b) {
+
+		ParallelBlockFourFour metodo = new ParallelBlockFourFour();
+
+		double[][] resultadoMatriz;
+
+		long inicioTiempo = System.nanoTime();
+
+		resultadoMatriz = metodo.multiply(a, b, 2);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultadoMatriz };
+
+		return respuesta;
+	}
+	
+	public Object[] capturaParallelBlockFourFive(double[][] a, double[][] b) {
+
+		ParallelBlockFourFive metodo = new ParallelBlockFourFive();
+
+		double[][] resultadoMatriz;
+
+		long inicioTiempo = System.nanoTime();
+
+		resultadoMatriz = metodo.multiply(a, b, 2);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;

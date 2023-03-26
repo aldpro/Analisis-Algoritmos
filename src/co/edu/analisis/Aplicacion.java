@@ -26,10 +26,10 @@ public class Aplicacion {
 		resultado(matrizn, matrizm, 10);
 		resultado(matrizn, matrizm, 11);
 		resultado(matrizn, matrizm, 12);
-//		resultado(matrizn, matrizm, 13);
-//		resultado(matrizn, matrizm, 14);
-//		resultado(matrizn, matrizm, 15);
-//		resultado(matrizn, matrizm, 16);
+		resultado(matrizn, matrizm, 13);
+		resultado(matrizn, matrizm, 14);
+		resultado(matrizn, matrizm, 15);
+		resultado(matrizn, matrizm, 16);
 	}
 	
 	public static double arregloMatriz(double[][] matriz) {
