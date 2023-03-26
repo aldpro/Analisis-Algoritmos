@@ -2,50 +2,57 @@ package co.edu.analisis.model.methods;
 
 public class WinogradOriginal {
 
-	public double[][] winogradOriginal(double[][] a, double[][] b) {
-		int m = a.length; // Filas matriz a[]
-		int n = a[0].length; // Columnas matriz a[]
-		int p = b[0].length; // Columnas matriz b[]
+	public double[][] winogradOriginal(double[][] a, double[][] b, double[][] c, int n, int p, int m) {
+		int i, j, k;
+		double aux;
+		int upsilon = p % 2;
+		int gamma = p - upsilon;
+		double[] y = new double[m];
+		double[] z = new double[n];
 
-		if (n != b.length) {
-			throw new IllegalArgumentException("Dimensiones no compatibles");
-		}
-
-		// Calcular las constantes de Winograd
-		int r = 2;
-		int rr = r * r;
-		double[] rowFactor = new double[m];
-		double[] colFactor = new double[p];
-		for (int i = 0; i < m; i++) {
-			rowFactor[i] = 0;
-			for (int j = 0; j < n; j += 2) {
-				rowFactor[i] += a[i][j] * a[i][j + 1];
+		for (i = 0; i < m; i++) {
+			aux = 0.0;
+			for (j = 0; j < gamma; j += 2) {
+				aux += a[i][j] * a[i][j + 1];
 			}
+			y[i] = aux;
 		}
-		for (int i = 0; i < p; i++) {
-			colFactor[i] = 0;
-			for (int j = 0; j < n; j += 2) {
-				colFactor[i] += b[j][i] * b[j + 1][i];
+
+		for (i = 0; i < n; i++) {
+			aux = 0.0;
+			for (j = 0; j < gamma; j += 2) {
+				aux += b[j][i] * b[j + 1][i];
 			}
+			z[i] = aux;
 		}
 
-		double[][] c = new double[m][p];
-
-		// Calcular el producto de las matrices utilizando el algoritmo de winograd
-		for (int i = 0; i < m; i++) {
-			for (int j = 0; j < p; j++) {
-				double dotProduct = 0;
-				for (int k = 0; k < n; k += 2) {
-					dotProduct += (a[i][k] + b[k + 1][j]) * (a[i][k + 1] + b[k][j]);
+		if (upsilon == 1) {
+			int PP = p - 1;
+			for (i = 0; i < m; i++) {
+				for (k = 0; k < n; k++) {
+					aux = 0.0;
+					for (j = 0; j < gamma; j += 2) {
+						aux += (a[i][j] + b[j + 1][k]) * (a[i][j + 1] + b[j][k]);
+					}
+					c[i][k] = aux - y[i] - z[k] + a[i][PP] * b[PP][k];
 				}
-				c[i][j] = -rowFactor[i] - colFactor[j] + dotProduct;
+			}
+		} else {
+			for (i = 0; i < m; i++) {
+				for (k = 0; k < n; k++) {
+					aux = 0.0;
+					for (j = 0; j < gamma; j += 2) {
+						aux += (a[i][j] + b[j + 1][k]) * (a[i][j + 1] + b[j][k]);
+					}
+					c[i][k] = aux - y[i] - z[k];
+				}
 			}
 		}
 
-		// Si las dimensiones de las matrices son impares, se procesa el sobrante [inaplicable]
-		if (n % 2 == 1) {
-			throw new IllegalArgumentException("El tamaño de la matriz es impar, el método no es aplicable.");
-		}
+		// Liberar memoria
+		y = null;
+		z = null;
+
 		return c;
 	}
 
