@@ -18,10 +18,10 @@ public class Aplicacion {
 		resultado(matrizn, matrizm, 2);
 		resultado(matrizn, matrizm, 3);
 		resultado(matrizn, matrizm, 4);
-//		resultado(matrizn, matrizm, 5);
-//		resultado(matrizn, matrizm, 6);
-//		resultado(matrizn, matrizm, 7);
-//		resultado(matrizn, matrizm, 8);
+		resultado(matrizn, matrizm, 5);
+		resultado(matrizn, matrizm, 6);
+		resultado(matrizn, matrizm, 7);
+		resultado(matrizn, matrizm, 8);
 //		resultado(matrizn, matrizm, 9);
 //		resultado(matrizn, matrizm, 10);
 //		resultado(matrizn, matrizm, 11);
