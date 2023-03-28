@@ -1,5 +1,9 @@
 package co.edu.analisis;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import co.edu.analisis.model.Captura;
 import co.edu.analisis.model.Metodo;
 
@@ -7,12 +11,15 @@ public class Aplicacion {
 	
 	public static void main(String[] args) {
 		
-		double[][] matrizn = {{1234, 2345, 3456, 4567}, {5678, 6789, 7890, 8901}, {9012, 1234, 2345, 3456}, {4567, 5678, 6789, 7890}};
-		double[][] matrizm = {{4321, 5432, 6543, 7654}, {8765, 9876, 1098, 2109}, {3210, 4321, 5432, 6543}, {7654, 8765, 9876, 1098}};
+		for (int j = 1; j <= 3; j++) {
+			double[][] matrizn = leerMatrix("Matriz " + j + ".txt");
+			double[][] matrizm = leerMatrix("Matriz " + j + ".txt");
 
-		for (int i = 1; i <= 16; i++) {
-			resultado(matrizn, matrizm, i);
+			for (int i = 1; i <= 16; i++) {
+				resultado(matrizn, matrizm, i);
+			}
 		}
+
 	}
 	
 	public static double arregloMatriz(double[][] matriz) {
@@ -60,5 +67,27 @@ public class Aplicacion {
 		
 		System.out.println("Tiempo: " + tiempo + " [milisegundos]" + "\n" + "Algoritmo: " + nombreMetodo + "\n");
 	}
-
+	
+	public static double[][] leerMatrix(String fileName) {
+	    double[][] matrix = null;
+	    try {
+	        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+	        String line;
+	        int row = 0;
+	        while ((line = reader.readLine()) != null) {
+	            String[] values = line.split("\t");
+	            if (matrix == null) {
+	                matrix = new double[values.length][values.length];
+	            }
+	            for (int col = 0; col < values.length; col++) {
+	                matrix[row][col] = Integer.parseInt(values[col]);
+	            }
+	            row++;
+	        }
+	        reader.close();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return matrix;
+	}
 }

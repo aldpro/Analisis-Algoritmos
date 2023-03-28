@@ -321,7 +321,7 @@ public class Captura {
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b, 2);
+		resultadoMatriz = metodo.multiply(a, b, (int) Math.sqrt(a.length));
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -339,7 +339,7 @@ public class Captura {
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b, 2);
+		resultadoMatriz = metodo.multiply(a, b, (int) Math.sqrt(a.length));
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -357,7 +357,7 @@ public class Captura {
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b, 2);
+		resultadoMatriz = metodo.multiply(a, b, (int) Math.sqrt(a.length));
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -375,7 +375,7 @@ public class Captura {
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b, 2);
+		resultadoMatriz = metodo.multiply(a, b, (int) Math.sqrt(a.length));
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -393,7 +393,7 @@ public class Captura {
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b, 2);
+		resultadoMatriz = metodo.multiply(a, b, (int) Math.sqrt(a.length));
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -411,7 +411,7 @@ public class Captura {
 
 		long inicioTiempo = System.nanoTime();
 
-		resultadoMatriz = metodo.multiply(a, b, 2);
+		resultadoMatriz = metodo.multiply(a, b, (int) Math.sqrt(a.length));
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
