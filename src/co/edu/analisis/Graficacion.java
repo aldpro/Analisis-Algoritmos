@@ -91,9 +91,6 @@ public class Graficacion extends ApplicationFrame {
         theme.setRegularFont(new Font("TW Cen MT", Font.PLAIN, 10));
         
         ChartFactory.setChartTheme(theme);
-        
-//        double[][] matrizn = leerMatrix("Matriz 1.txt");
-//        double[][] matrizm = leerMatrix("Matriz 1.txt");
 
         // Primer Dataset para el primer gráfico de barras
         DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
@@ -101,12 +98,8 @@ public class Graficacion extends ApplicationFrame {
         for (int k =1; k<=16;k++){
             dataset1.setValue(promedio(k),"Metodo", obtenernombre(k));
         }
-
-        //for (int i = 1; i <= 16; i++) {
-        //	dataset1.setValue(tiempo(matrizn, matrizm, i),"Metodo", obtenernombre(i));
-		//}
         
-        JFreeChart chart1 = ChartFactory.createBarChart("Promedio", "  ", "Tiempo", dataset1, PlotOrientation.VERTICAL, false, true, false);
+        JFreeChart chart1 = ChartFactory.createBarChart("Promedio", " Métodos ", "Tiempo", dataset1, PlotOrientation.VERTICAL, false, true, false);
 
         // Personalizar el gráfico
         CategoryPlot plot1 = (CategoryPlot) chart1.getPlot();
@@ -160,7 +153,7 @@ public class Graficacion extends ApplicationFrame {
         }
 
         // Crear el segundo gráfico de barras
-        JFreeChart chart2 = ChartFactory.createBarChart("Ordenado", "  ", "Tiempo", dataset2, PlotOrientation.VERTICAL, false, true, false);
+        JFreeChart chart2 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo", dataset2, PlotOrientation.VERTICAL, false, true, false);
         
         // Personalizar el gráfico
         CategoryPlot plot2 = (CategoryPlot) chart2.getPlot();
