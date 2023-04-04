@@ -61,6 +61,21 @@ public class Graficacion extends ApplicationFrame {
         return nombreMetodo;
     }
 
+    public static long promedio(int x){
+
+        int numeroMatrices = 9;
+        long promedio;
+        long sum = 0;
+        for (int i=1; i<=numeroMatrices; i++){
+            double[][] matrizn = leerMatrix("Matriz "+i+".txt");
+            double[][] matrizm = leerMatrix("Matriz "+i+".txt");
+            sum += tiempo(matrizn, matrizm, x);
+        }
+        promedio= sum/numeroMatrices;
+        return promedio;
+
+    }
+
     public Graficacion(String title) {
         super(title);
         
@@ -68,19 +83,23 @@ public class Graficacion extends ApplicationFrame {
         
         theme.setExtraLargeFont(new Font("TW Cen MT", Font.BOLD, 20));
         theme.setLargeFont(new Font("TW Cen MT", Font.BOLD, 18));
-        theme.setRegularFont(new Font("TW Cen MT", Font.PLAIN, 16));
+        theme.setRegularFont(new Font("TW Cen MT", Font.PLAIN, 10));
         
         ChartFactory.setChartTheme(theme);
         
-        double[][] matrizn = leerMatrix("Matriz 1.txt");
-        double[][] matrizm = leerMatrix("Matriz 1.txt");
+//        double[][] matrizn = leerMatrix("Matriz 1.txt");
+//        double[][] matrizm = leerMatrix("Matriz 1.txt");
 
         // Primer Dataset para el primer gráfico de barras
         DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
 
-        for (int i = 1; i <= 16; i++) {
-        	dataset1.setValue(tiempo(matrizn, matrizm, i),"Metodo", obtenernombre(i));
-		}
+        for (int k =1; k<=16;k++){
+            dataset1.setValue(promedio(k),"Metodo", obtenernombre(k));
+        }
+
+        //for (int i = 1; i <= 16; i++) {
+        //	dataset1.setValue(tiempo(matrizn, matrizm, i),"Metodo", obtenernombre(i));
+		//}
         
         JFreeChart chart1 = ChartFactory.createBarChart("Promedio", "  ", "Tiempo", dataset1, PlotOrientation.VERTICAL, false, true, false);
 
@@ -116,7 +135,6 @@ public class Graficacion extends ApplicationFrame {
 
         CategoryAxis axis2 = plot2.getDomainAxis();
         axis2.setCategoryMargin(0.5);
-
 
         JPanel chartPanel1 = new ChartPanel(chart1);
         chartPanel1.setPreferredSize(new Dimension(1000, 800)); // Tamaño del gráfico
