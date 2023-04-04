@@ -6,11 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
+import javax.swing.table.TableRowSorter;
 
 import co.edu.analisis.model.Captura;
 import co.edu.analisis.model.Metodo;
@@ -27,11 +29,14 @@ import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.DataUtilities;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.RefineryUtilities;
 import org.jfree.ui.TextAnchor;
+import org.jfree.util.SortOrder;
 
 public class Graficacion extends ApplicationFrame {
 
@@ -118,9 +123,45 @@ public class Graficacion extends ApplicationFrame {
         CategoryAxis axis = plot1.getDomainAxis();
         axis.setCategoryMargin(0.5);
 
-        // Crear el segundo gráfico de barras
-        JFreeChart chart2 = ChartFactory.createBarChart("Algoritmos 2", "  ", "Tiempo", dataset1, PlotOrientation.VERTICAL, false, true, false);
+        DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
 
+        for (int i = 0; i < dataset1.getRowCount(); i++) {
+            Comparable rowKey = dataset1.getRowKey(i);
+            for (int j = 0; j < dataset1.getColumnCount(); j++) {
+                Comparable columnKey = dataset1.getColumnKey(j);
+                Number value = dataset1.getValue(i, j);
+                dataset2.setValue(value, rowKey, columnKey);
+            }
+        }
+
+        // Obtener los valores del dataset y almacenarlos en un ArrayList
+        ArrayList<Double> values = new ArrayList<>();
+        for (int i = 0; i < dataset2.getRowCount(); i++) {
+            for (int j = 0; j < dataset2.getColumnCount(); j++) {
+                Number value = dataset2.getValue(i, j);
+                if (value != null) {
+                    values.add(value.doubleValue());
+                }
+            }
+        }
+
+        // Ordenar los valores en orden ascendente
+        Collections.sort(values);
+
+        // Actualizar los valores del dataset con los valores ordenados
+        int index = 0;
+        for (int i = 0; i < dataset2.getRowCount(); i++) {
+            for (int j = 0; j < dataset2.getColumnCount(); j++) {
+                Number value = dataset2.getValue(i, j);
+                if (value != null) {
+                    dataset2.setValue(values.get(index++), dataset2.getRowKey(i), dataset2.getColumnKey(j));
+                }
+            }
+        }
+
+        // Crear el segundo gráfico de barras
+        JFreeChart chart2 = ChartFactory.createBarChart("Ordenado", "  ", "Tiempo", dataset2, PlotOrientation.VERTICAL, false, true, false);
+        
         // Personalizar el gráfico
         CategoryPlot plot2 = (CategoryPlot) chart2.getPlot();
         BarRenderer renderer2 = (BarRenderer) plot2.getRenderer();
@@ -142,6 +183,8 @@ public class Graficacion extends ApplicationFrame {
         JPanel chartPanel2 = new ChartPanel(chart2);
         chartPanel2.setPreferredSize(new Dimension(1000, 800)); // Tamaño del gráfico
         setContentPane(chartPanel2);
+        // Repintar la gráfica
+        chartPanel2.repaint();
 
         // Crear el panel para los gráficos
         JPanel chartContainer = new JPanel(); // GridLayout con 2 filas y 1 columna
