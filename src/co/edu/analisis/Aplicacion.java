@@ -13,13 +13,13 @@ public class Aplicacion {
 
 		int j = 1;
 
-		double[][] matrizn = leerMatrix("Matriz " + j + ".txt");
-		double[][] matrizm = leerMatrix("Matriz " + j + ".txt");
-		for (int i = 1; i <= 16; i++) {
-			resultado(matrizn, matrizm, i);
-		}
-
-
+//		for (int j = 0; j <= 12; j++) {
+			double[][] matrizn = leerMatrix("Matriz " + j + ".txt");
+			double[][] matrizm = leerMatrix("Matriz " + j + ".txt");
+			for (int i = 1; i <= 16; i++) {
+				resultado(matrizn, matrizm, i);
+			}
+//		}
 	}
 
 	public static double arregloMatriz(double[][] matriz) {
@@ -61,9 +61,9 @@ public class Aplicacion {
 		long tiempo = (long) resultado[0];
 		double[][] matrizResultado = (double[][]) resultado[1];
 
-		//imprimirMatriz(matrizn, "A");
-		//imprimirMatriz(matrizm, "B");
-		//imprimirMatriz(matrizResultado, "C");
+//		imprimirMatriz(matrizn, "A");
+//		imprimirMatriz(matrizm, "B");
+//		imprimirMatriz(matrizResultado, "C");
 
 		System.out.println("Tiempo: " + tiempo + " [milisegundos]" + "\n" + "Algoritmo: " + nombreMetodo + "\n");
 	}
