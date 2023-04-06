@@ -50,11 +50,11 @@ public class Aplicacion {
 
 	public static void resultado (double[][] matrizn, double[][] matrizm, int metodo) {
 		Captura captura = new Captura();
-		Metodo met = new Metodo();
+		Metodo mapa = new Metodo();
 
 		String nombreMetodo = " ";
 
-		nombreMetodo = met.obtenerNombre(metodo);
+		nombreMetodo = mapa.obtenerNombre(metodo);
 		Object[] resultado = captura.consultaMetodo(matrizn, matrizm, metodo);
 
 

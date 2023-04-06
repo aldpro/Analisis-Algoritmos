@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -43,6 +44,12 @@ import org.jfree.util.SortOrder;
 
 public class Graficacion extends ApplicationFrame {
 
+	final static int NUMERO_METODO = 16;
+	final static int NUMERO_MATRIZ = 8;
+	static long[][] registro = new long[NUMERO_METODO][NUMERO_MATRIZ];
+	static ArrayList<Object[]> listaPromedio = new ArrayList<Object[]>();
+	static ArrayList<Object[]> listaOrdenado = new ArrayList<Object[]>();
+	
 	public static void main(String[] args) {
 
 		Graficacion chart = new Graficacion("Algoritmos");
@@ -61,27 +68,50 @@ public class Graficacion extends ApplicationFrame {
 	}
 
 	public static String obtenernombre(int metodo) {
-		Metodo met = new Metodo();
+		Metodo mapa = new Metodo();
 
 		String nombreMetodo = " ";
-		nombreMetodo = met.obtenerNombre(metodo);
+		nombreMetodo = mapa.obtenerNombre(metodo);
 
 		return nombreMetodo;
 	}
 	
-	public static long promedio(int x) {
+	public static void promedio(int metodo) {
+		
+		String nombre = "";
+		long suma = 0;
+		long promedio = 0;
 
-		int numeroMatrices = 8;
-		long promedio;
-		long sum = 0;
-		for (int i = 1; i <= numeroMatrices; i++) {
-			double[][] matrizn = leerMatrix("Matriz " + i + ".txt");
-			double[][] matrizm = leerMatrix("Matriz " + i + ".txt");
-			sum += tiempo(matrizn, matrizm, x);
+		for (int i = 0; i < NUMERO_MATRIZ; i++) {
+			suma += registro[metodo-1][i];
 		}
-		promedio = sum / numeroMatrices;
-		return promedio;
-
+		
+		promedio = suma / NUMERO_MATRIZ;
+		nombre = obtenernombre(metodo);
+		
+		Object[] respuesta = { nombre, promedio };
+		
+		listaPromedio.add(respuesta);
+	}
+	
+	public static void ordenar() {
+		
+        Collections.sort(listaOrdenado, new Comparator<Object[]>() {
+            @Override
+            public int compare(Object[] o1, Object[] o2) {
+                return ((Long) o1[1]).compareTo((Long) o2[1]);
+            }
+        });
+	}
+	
+	public static void recorrer(int metodo) {
+		
+		for (int j = 1; j <= NUMERO_MATRIZ; j++) {
+			double[][] matrizn = leerMatrix("Matriz " + j + ".txt");
+			double[][] matrizm = leerMatrix("Matriz " + j + ".txt");
+			
+			registro[metodo-1][j-1] = tiempo(matrizn, matrizm, metodo);
+		}
 	}
 
 	public Graficacion(String title) {
@@ -95,10 +125,36 @@ public class Graficacion extends ApplicationFrame {
 		
 		ChartFactory.setChartTheme(theme);
 
+		for (int i = 1; i <= NUMERO_METODO; i++) {
+			recorrer(i);		
+		}
+
+		for (int i = 1; i <= NUMERO_METODO; i++) {
+			promedio(i);
+		}
+		
+		listaOrdenado.addAll(listaPromedio);
+
+		ordenar();
+		
+//		for (Object[] arreglo : listaPromedio) {
+//	    	System.out.println("Nombre del método: " + arreglo[0]);
+//	    	System.out.println("Promedio: " + arreglo[1]);
+//		}
+//	
+//		for (int i = 0; i < registro.length; i++) {
+//	    	for (int j = 0; j < registro[i].length; j++) {
+//	        	System.out.print(registro[i][j] + " ");
+//	    	}
+//	    	System.out.println();
+//		}
+		
 		DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
 
-		for (int k = 1; k <= 16; k++) {
-			dataset1.setValue(promedio(k), "Metodo", obtenernombre(k));
+		for (Object[] arreglo : listaPromedio) {
+			long tiempo = (long) arreglo[1];
+			String nombre = (String) arreglo[0];
+			dataset1.setValue(tiempo, "Metodo", nombre);
 		}
 
 		JFreeChart chart1 = ChartFactory.createBarChart("Promedio", " Métodos ", "Tiempo", dataset1, PlotOrientation.VERTICAL, false, true, false);
@@ -119,35 +175,10 @@ public class Graficacion extends ApplicationFrame {
 
 		DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
 
-		for (int i = 0; i < dataset1.getRowCount(); i++) {
-			Comparable rowKey = dataset1.getRowKey(i);
-			for (int j = 0; j < dataset1.getColumnCount(); j++) {
-				Comparable columnKey = dataset1.getColumnKey(j);
-				Number value = dataset1.getValue(i, j);
-				dataset2.setValue(value, rowKey, columnKey);
-			}
-		}
-
-		ArrayList<Double> values = new ArrayList<>();
-		for (int i = 0; i < dataset2.getRowCount(); i++) {
-			for (int j = 0; j < dataset2.getColumnCount(); j++) {
-				Number value = dataset2.getValue(i, j);
-				if (value != null) {
-					values.add(value.doubleValue());
-				}
-			}
-		}
-
-		Collections.sort(values);
-
-		int index = 0;
-		for (int i = 0; i < dataset2.getRowCount(); i++) {
-			for (int j = 0; j < dataset2.getColumnCount(); j++) {
-				Number value = dataset2.getValue(i, j);
-				if (value != null) {
-					dataset2.setValue(values.get(index++), dataset2.getRowKey(i), dataset2.getColumnKey(j));
-				}
-			}
+		for (Object[] arreglo : listaOrdenado) {
+			long tiempo = (long) arreglo[1];
+			String nombre = (String) arreglo[0];
+			dataset2.setValue(tiempo, "Metodo", nombre);
 		}
 
 		JFreeChart chart2 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo", dataset2, PlotOrientation.VERTICAL, false, true, false);
@@ -172,8 +203,20 @@ public class Graficacion extends ApplicationFrame {
 		tableModel.addColumn("Rango");
 		tableModel.addColumn("Desviación estándar");
 		tableModel.addColumn("Varianza");
-		tableModel.addRow(new Object[]{"Celda 1", "Celda 2"});
-		tableModel.addRow(new Object[]{"Celda 3", "Celda 4"});
+
+//		for (int i = 0; i < registro.length; i++) {
+//		    String metodo = "Método " + (i+1);
+//		    long[] metodoDatos = registro[i];
+//
+//		    // Calcula las estadísticas
+//		    long media = new Mean().evaluate(metodoDatos);
+//		    long rango = new Range().evaluate(metodoDatos);
+//		    long desviacion = new StandardDeviation().evaluate(metodoDatos);
+//		    long varianza = new Variance().evaluate(metodoDatos);
+//
+//		    // Agrega una fila a la tabla con las estadísticas calculadas
+//		    tableModel.addRow(new Object[]{metodo, media, rango, desviacion, varianza});
+//		}
 
 		JTable table = new JTable(tableModel);
 
