@@ -52,7 +52,7 @@ import org.jfree.util.SortOrder;
 public class Graficacion extends ApplicationFrame {
 
 	final static int M = 16;
-	final static int MZ = 8;
+	final static int MZ = 10;
 	static long[][] registro = new long[M][MZ];
 	static ArrayList<Object[]> listaPromedio = new ArrayList<Object[]>();
 	static ArrayList<Object[]> listaOrdenado = new ArrayList<Object[]>();
@@ -178,6 +178,8 @@ public class Graficacion extends ApplicationFrame {
 		plot1.setRangeGridlinePaint(Color.WHITE);
 
 		CategoryAxis axis = plot1.getDomainAxis();
+		NumberAxis yAxis = (NumberAxis) plot1.getRangeAxis();
+		yAxis.setNumberFormatOverride(new DecimalFormat("#"));
 		axis.setCategoryMargin(0.5);
 
 		DefaultCategoryDataset dataset2 = new DefaultCategoryDataset();
@@ -189,7 +191,7 @@ public class Graficacion extends ApplicationFrame {
 		}
 
 		JFreeChart chart2 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}", dataset2, PlotOrientation.VERTICAL, false, true, false);
-
+		
 		CategoryPlot plot2 = (CategoryPlot) chart2.getPlot();
 		BarRenderer renderer2 = (BarRenderer) plot2.getRenderer();
 		renderer2.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
@@ -202,6 +204,8 @@ public class Graficacion extends ApplicationFrame {
 		plot2.setRangeGridlinePaint(Color.WHITE);
 
 		CategoryAxis axis2 = plot2.getDomainAxis();
+		NumberAxis yAxis2 = (NumberAxis) plot2.getRangeAxis();
+		yAxis2.setNumberFormatOverride(new DecimalFormat("#"));
 		axis2.setCategoryMargin(0.5);
 		
 		DefaultTableModel tableModel = new DefaultTableModel();
@@ -236,10 +240,6 @@ public class Graficacion extends ApplicationFrame {
 		
 		JFreeChart chart3 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}", dataset3, PlotOrientation.VERTICAL, true, true, false);
 		
-		CategoryPlot plot = chart3.getCategoryPlot();
-		NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
-		yAxis.setNumberFormatOverride(new DecimalFormat("#,#"));
-		
 		CategoryPlot plot3 = (CategoryPlot) chart3.getPlot();
 		BarRenderer renderer3 = (BarRenderer) plot3.getRenderer();
 		renderer3.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
@@ -252,36 +252,41 @@ public class Graficacion extends ApplicationFrame {
 		plot3.setRangeGridlinePaint(Color.WHITE);
 
 		CategoryAxis axis3 = plot3.getDomainAxis();
-		axis3.setCategoryMargin(0.5);
+		NumberAxis yAxis3 = (NumberAxis) plot3.getRangeAxis();
+		yAxis3.setNumberFormatOverride(new DecimalFormat("#"));
+		axis3.setCategoryMargin(0.3);
 		
-//		DefaultTableModel tableModel2 = new DefaultTableModel();
-//		
-//		tableModel2.addColumn("Método");
-//		
-//		for (int i = 1; i <= MZ; i++) {
-//
-//			tableModel2.addColumn("T");
-//			tableModel2.addColumn("t: " + i);
-//		}
-//
-//
-//		for (int i = 0; i < registro.length; i++) {
-//		    for (int j = 0; j < registro[i].length; j++) {
-//		    	dataset3.setValue(registro[i][j], "Tamaño: " + j, obtenernombre(i + 1));
-//		    }
-//		}
-//		
-//		for (int i = 0; i < registro.length; i++) {
-//		    String metodo = obtenernombre(i+1);
-//		    long[] datos = registro[i];
-//		    
-//		    long media = media(i);
-//		    long rango = rango(i);
-//		    long desviacion = (long) new StandardDeviation().evaluate(convertirDouble(datos));
-//		    long varianza = (long) new Variance().evaluate(convertirDouble(datos));
-//
-//		    tableModel2.addRow(new Object[]{metodo, media, rango, desviacion, varianza});
-//		}
+	
+		DefaultTableModel tableModel2 = new DefaultTableModel();
+
+		tableModel2.addColumn("Método");
+
+		int[] elevacion = new int[MZ];
+
+		for (int i = 1; i <= MZ; i++) {
+		    int resultado = (int) Math.pow(2, i);
+
+		    tableModel2.addColumn("t: " + i + "[" + resultado + "]");
+		    elevacion[i-1] = resultado;
+		}
+
+		for (int i = 0; i < registro.length; i++) {
+		    String metodo = obtenernombre(i+1);
+		    long[] datos = registro[i];
+
+		    Object[] row = new Object[elevacion.length + 1];
+		    row[0] = metodo;
+
+		    for (int j = 0; j < elevacion.length; j++) {
+
+		        row[j+1] = datos[j];
+		    }
+
+		    tableModel2.addRow(row);
+		}
+
+		
+		JTable table2 = new JTable(tableModel2);
 		
 		JPanel chartPanel1 = new ChartPanel(chart1);
 		chartPanel1.setPreferredSize(new Dimension(1000, 900));
@@ -305,14 +310,31 @@ public class Graficacion extends ApplicationFrame {
 		renderer.setFont(cellFont);
 		table.setDefaultRenderer(Object.class, renderer);
 		
-		tablePanel.setPreferredSize(new Dimension(1000, 800));
+		tablePanel.setPreferredSize(new Dimension(1000, 320));
 		
-//		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);		
-//		table.getColumnModel().getColumn(0).setPreferredWidth(200);
-//		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		
 		JPanel chartPanel3 = new ChartPanel(chart3);
 		chartPanel3.setPreferredSize(new Dimension(1000, 900));
+	
+		
+		JScrollPane tablePanel2 = new JScrollPane(table2);
+		TitledBorder titledBorder2 = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Llenado de datos", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("TW Cen MT", Font.BOLD, 22));
+		tablePanel2.setBorder(titledBorder2);
+		
+		JTableHeader header2 = table2.getTableHeader();
+
+		Font headerFont2 = new Font("TW Cen MT", Font.BOLD, 18);
+		header2.setFont(headerFont2);
+
+		Font cellFont2 = new Font("TW Cen MT", Font.PLAIN, 14);
+		table2.setFont(cellFont2);
+
+		DefaultTableCellRenderer renderert = new DefaultTableCellRenderer();
+		renderert.setFont(cellFont2);
+		table2.setDefaultRenderer(Object.class, renderert);
+		
+		tablePanel2.setPreferredSize(new Dimension(1000, 320));
+		
 		
 		JPanel chartContainer = new JPanel();
 		chartContainer.setLayout(new BorderLayout());
@@ -320,7 +342,8 @@ public class Graficacion extends ApplicationFrame {
 
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(chartPanel2, BorderLayout.NORTH);
-		centerPanel.add(chartPanel3, BorderLayout.SOUTH);
+		centerPanel.add(chartPanel3, BorderLayout.CENTER);
+		centerPanel.add(tablePanel2, BorderLayout.SOUTH);
 
 		chartContainer.add(centerPanel, BorderLayout.CENTER);
 		chartContainer.add(tablePanel, BorderLayout.SOUTH);
