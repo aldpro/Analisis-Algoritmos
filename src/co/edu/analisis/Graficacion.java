@@ -220,7 +220,6 @@ public class Graficacion extends ApplicationFrame {
 		    long desviacion = (long) new StandardDeviation().evaluate(convertirDouble(datos));
 		    long varianza = (long) new Variance().evaluate(convertirDouble(datos));
 
-		    // Agrega una fila a la tabla con las estadísticas calculadas
 		    tableModel.addRow(new Object[]{metodo, media, rango, desviacion, varianza});
 		}
 
@@ -268,7 +267,6 @@ public class Graficacion extends ApplicationFrame {
 
 		CategoryAxis xAxis1 = chart2.getCategoryPlot().getDomainAxis();
 		xAxis1.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
-		
 
 		setContentPane(scrollPane);
 		pack();
