@@ -14,12 +14,18 @@ import java.util.TreeMap;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 
 import co.edu.analisis.model.Captura;
 import co.edu.analisis.model.Metodo;
+
+import org.apache.commons.math3.stat.descriptive.moment.Mean;
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
+import org.apache.commons.math3.stat.descriptive.moment.Variance;
+import org.apache.commons.math3.stat.descriptive.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -34,6 +40,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.DataUtilities;
+import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.ApplicationFrame;
@@ -137,17 +144,17 @@ public class Graficacion extends ApplicationFrame {
 
 		ordenar();
 		
-//		for (Object[] arreglo : listaPromedio) {
-//	    	System.out.println("Nombre del método: " + arreglo[0]);
-//	    	System.out.println("Promedio: " + arreglo[1]);
-//		}
-//	
-//		for (int i = 0; i < registro.length; i++) {
-//	    	for (int j = 0; j < registro[i].length; j++) {
-//	        	System.out.print(registro[i][j] + " ");
-//	    	}
-//	    	System.out.println();
-//		}
+		for (Object[] arreglo : listaPromedio) {
+	    	System.out.println("Nombre del método: " + arreglo[0]);
+	    	System.out.println("Promedio: " + arreglo[1]);
+		}
+	
+		for (int i = 0; i < registro.length; i++) {
+	    	for (int j = 0; j < registro[i].length; j++) {
+	        	System.out.print(registro[i][j] + " ");
+	    	}
+	    	System.out.println();
+		}
 		
 		DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
 
@@ -157,7 +164,7 @@ public class Graficacion extends ApplicationFrame {
 			dataset1.setValue(tiempo, "Metodo", nombre);
 		}
 
-		JFreeChart chart1 = ChartFactory.createBarChart("Promedio", " Métodos ", "Tiempo", dataset1, PlotOrientation.VERTICAL, false, true, false);
+		JFreeChart chart1 = ChartFactory.createBarChart("Promedio", " Métodos ", "Tiempo {nanosegundos}", dataset1, PlotOrientation.VERTICAL, false, true, false);
 
 		CategoryPlot plot1 = (CategoryPlot) chart1.getPlot();
 		BarRenderer renderer1 = (BarRenderer) plot1.getRenderer();
@@ -181,7 +188,7 @@ public class Graficacion extends ApplicationFrame {
 			dataset2.setValue(tiempo, "Metodo", nombre);
 		}
 
-		JFreeChart chart2 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo", dataset2, PlotOrientation.VERTICAL, false, true, false);
+		JFreeChart chart2 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}", dataset2, PlotOrientation.VERTICAL, false, true, false);
 
 		CategoryPlot plot2 = (CategoryPlot) chart2.getPlot();
 		BarRenderer renderer2 = (BarRenderer) plot2.getRenderer();
@@ -204,34 +211,42 @@ public class Graficacion extends ApplicationFrame {
 		tableModel.addColumn("Desviación estándar");
 		tableModel.addColumn("Varianza");
 
-//		for (int i = 0; i < registro.length; i++) {
-//		    String metodo = "Método " + (i+1);
-//		    long[] metodoDatos = registro[i];
-//
-//		    // Calcula las estadísticas
-//		    long media = new Mean().evaluate(metodoDatos);
-//		    long rango = new Range().evaluate(metodoDatos);
-//		    long desviacion = new StandardDeviation().evaluate(metodoDatos);
-//		    long varianza = new Variance().evaluate(metodoDatos);
-//
-//		    // Agrega una fila a la tabla con las estadísticas calculadas
-//		    tableModel.addRow(new Object[]{metodo, media, rango, desviacion, varianza});
-//		}
+		for (int i = 0; i < registro.length; i++) {
+		    String metodo = obtenernombre(i+1);
+		    long[] datos = registro[i];
+		    
+		    long media = media(i);
+		    long rango = rango(i);
+		    long desviacion = (long) new StandardDeviation().evaluate(convertirDouble(datos));
+		    long varianza = (long) new Variance().evaluate(convertirDouble(datos));
+
+		    // Agrega una fila a la tabla con las estadísticas calculadas
+		    tableModel.addRow(new Object[]{metodo, media, rango, desviacion, varianza});
+		}
 
 		JTable table = new JTable(tableModel);
 
 		JPanel chartPanel1 = new ChartPanel(chart1);
-		chartPanel1.setPreferredSize(new Dimension(1000, 800));
+		chartPanel1.setPreferredSize(new Dimension(1000, 900));
 
 		JPanel chartPanel2 = new ChartPanel(chart2);
-		chartPanel2.setPreferredSize(new Dimension(1000, 800));
+		chartPanel2.setPreferredSize(new Dimension(1000, 900));
 
 		JScrollPane tablePanel = new JScrollPane(table);
-		TitledBorder titledBorder = BorderFactory.createTitledBorder(
-		        BorderFactory.createLineBorder(Color.BLACK), "Representacion",
-		        TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
-		        new Font("TW Cen MT", Font.BOLD, 22));
+		TitledBorder titledBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Representacion", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("TW Cen MT", Font.BOLD, 22));
 		tablePanel.setBorder(titledBorder);
+		
+		JTableHeader header = table.getTableHeader();
+
+		Font headerFont = new Font("TW Cen MT", Font.BOLD, 18);
+		header.setFont(headerFont);
+
+		Font cellFont = new Font("TW Cen MT", Font.PLAIN, 14);
+		table.setFont(cellFont);
+
+		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+		renderer.setFont(cellFont);
+		table.setDefaultRenderer(Object.class, renderer);
 		
 		tablePanel.setPreferredSize(new Dimension(1000, 800));
 		
@@ -283,5 +298,40 @@ public class Graficacion extends ApplicationFrame {
 		}
 		return matrix;
 	}
+
+	
+	public static long media(int metodo) {
+		
+		long suma = 0;
+
+		for (int i = 0; i < NUMERO_MATRIZ; i++) {
+			suma += registro[metodo][i];
+		}
+		
+		return suma / NUMERO_MATRIZ;
+	}
+	
+	public static long rango(int metodo) {
+	    long[] datos = registro[metodo];
+	    long min = datos[0];
+	    long max = datos[0];
+	    for (int i = 1; i < datos.length; i++) {
+	        if (datos[i] < min) {
+	            min = datos[i];
+	        } else if (datos[i] > max) {
+	            max = datos[i];
+	        }
+	    }
+	    return max - min;
+	}
+	
+	public static double[] convertirDouble(long[] array) {
+	    double[] result = new double[array.length];
+	    for (int i = 0; i < array.length; i++) {
+	        result[i] = (double) array[i];
+	    }
+	    return result;
+	}
+
 
 }
