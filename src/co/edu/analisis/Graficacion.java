@@ -51,9 +51,9 @@ import org.jfree.util.SortOrder;
 
 public class Graficacion extends ApplicationFrame {
 
-	final static int NUMERO_METODO = 16;
-	final static int NUMERO_MATRIZ = 8;
-	static long[][] registro = new long[NUMERO_METODO][NUMERO_MATRIZ];
+	final static int M = 16;
+	final static int MZ = 8;
+	static long[][] registro = new long[M][MZ];
 	static ArrayList<Object[]> listaPromedio = new ArrayList<Object[]>();
 	static ArrayList<Object[]> listaOrdenado = new ArrayList<Object[]>();
 	
@@ -89,11 +89,11 @@ public class Graficacion extends ApplicationFrame {
 		long suma = 0;
 		long promedio = 0;
 
-		for (int i = 0; i < NUMERO_MATRIZ; i++) {
+		for (int i = 0; i < MZ; i++) {
 			suma += registro[metodo-1][i];
 		}
 		
-		promedio = suma / NUMERO_MATRIZ;
+		promedio = suma / MZ;
 		nombre = obtenernombre(metodo);
 		
 		Object[] respuesta = { nombre, promedio };
@@ -113,7 +113,7 @@ public class Graficacion extends ApplicationFrame {
 	
 	public static void recorrer(int metodo) {
 		
-		for (int j = 1; j <= NUMERO_MATRIZ; j++) {
+		for (int j = 1; j <= MZ; j++) {
 			double[][] matrizn = leerMatrix("Matriz " + j + ".txt");
 			double[][] matrizm = leerMatrix("Matriz " + j + ".txt");
 			
@@ -132,11 +132,11 @@ public class Graficacion extends ApplicationFrame {
 		
 		ChartFactory.setChartTheme(theme);
 
-		for (int i = 1; i <= NUMERO_METODO; i++) {
+		for (int i = 1; i <= M; i++) {
 			recorrer(i);		
 		}
 
-		for (int i = 1; i <= NUMERO_METODO; i++) {
+		for (int i = 1; i <= M; i++) {
 			promedio(i);
 		}
 		
@@ -148,13 +148,13 @@ public class Graficacion extends ApplicationFrame {
 //	    	System.out.println("Nombre del método: " + arreglo[0]);
 //	    	System.out.println("Promedio: " + arreglo[1]);
 //		}
-//	
-//		for (int i = 0; i < registro.length; i++) {
-//	    	for (int j = 0; j < registro[i].length; j++) {
-//	        	System.out.print(registro[i][j] + " ");
-//	    	}
-//	    	System.out.println();
-//		}
+	
+		for (int i = 0; i < registro.length; i++) {
+	    	for (int j = 0; j < registro[i].length; j++) {
+	        	System.out.print(registro[i][j] + " ");
+	    	}
+	    	System.out.println();
+		}
 		
 		DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
 
@@ -224,7 +224,65 @@ public class Graficacion extends ApplicationFrame {
 		}
 
 		JTable table = new JTable(tableModel);
+		
+		//-
+		DefaultCategoryDataset dataset3 = new DefaultCategoryDataset();
+		
+		for (int i = 0; i < registro.length; i++) {
+		    for (int j = 0; j < registro[i].length; j++) {
+		    	dataset3.setValue(registro[i][j], "Tamaño: " + j, obtenernombre(i + 1));
+		    }
+		}
+		
+		JFreeChart chart3 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}", dataset3, PlotOrientation.VERTICAL, true, true, false);
+		
+		CategoryPlot plot = chart3.getCategoryPlot();
+		NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+		yAxis.setNumberFormatOverride(new DecimalFormat("#,#"));
+		
+		CategoryPlot plot3 = (CategoryPlot) chart3.getPlot();
+		BarRenderer renderer3 = (BarRenderer) plot3.getRenderer();
+		renderer3.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
+		renderer3.setBaseItemLabelsVisible(true);
+		renderer3.setItemLabelAnchorOffset(0);
+		renderer3.setItemLabelsVisible(true);
+		renderer3.setDrawBarOutline(false);
+		chart3.setBackgroundPaint(Color.WHITE);
 
+		plot3.setRangeGridlinePaint(Color.WHITE);
+
+		CategoryAxis axis3 = plot3.getDomainAxis();
+		axis3.setCategoryMargin(0.5);
+		
+//		DefaultTableModel tableModel2 = new DefaultTableModel();
+//		
+//		tableModel2.addColumn("Método");
+//		
+//		for (int i = 1; i <= MZ; i++) {
+//
+//			tableModel2.addColumn("T");
+//			tableModel2.addColumn("t: " + i);
+//		}
+//
+//
+//		for (int i = 0; i < registro.length; i++) {
+//		    for (int j = 0; j < registro[i].length; j++) {
+//		    	dataset3.setValue(registro[i][j], "Tamaño: " + j, obtenernombre(i + 1));
+//		    }
+//		}
+//		
+//		for (int i = 0; i < registro.length; i++) {
+//		    String metodo = obtenernombre(i+1);
+//		    long[] datos = registro[i];
+//		    
+//		    long media = media(i);
+//		    long rango = rango(i);
+//		    long desviacion = (long) new StandardDeviation().evaluate(convertirDouble(datos));
+//		    long varianza = (long) new Variance().evaluate(convertirDouble(datos));
+//
+//		    tableModel2.addRow(new Object[]{metodo, media, rango, desviacion, varianza});
+//		}
+		
 		JPanel chartPanel1 = new ChartPanel(chart1);
 		chartPanel1.setPreferredSize(new Dimension(1000, 900));
 
@@ -253,10 +311,18 @@ public class Graficacion extends ApplicationFrame {
 //		table.getColumnModel().getColumn(0).setPreferredWidth(200);
 //		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		
+		JPanel chartPanel3 = new ChartPanel(chart3);
+		chartPanel3.setPreferredSize(new Dimension(1000, 900));
+		
 		JPanel chartContainer = new JPanel();
 		chartContainer.setLayout(new BorderLayout());
 		chartContainer.add(chartPanel1, BorderLayout.NORTH);
-		chartContainer.add(chartPanel2, BorderLayout.CENTER);
+
+		JPanel centerPanel = new JPanel(new BorderLayout());
+		centerPanel.add(chartPanel2, BorderLayout.NORTH);
+		centerPanel.add(chartPanel3, BorderLayout.SOUTH);
+
+		chartContainer.add(centerPanel, BorderLayout.CENTER);
 		chartContainer.add(tablePanel, BorderLayout.SOUTH);
 
 		JScrollPane scrollPane = new JScrollPane(chartContainer);
@@ -267,6 +333,9 @@ public class Graficacion extends ApplicationFrame {
 
 		CategoryAxis xAxis1 = chart2.getCategoryPlot().getDomainAxis();
 		xAxis1.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
+		
+		CategoryAxis xAxis3 = chart3.getCategoryPlot().getDomainAxis();
+		xAxis3.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
 
 		setContentPane(scrollPane);
 		pack();
@@ -302,11 +371,11 @@ public class Graficacion extends ApplicationFrame {
 		
 		long suma = 0;
 
-		for (int i = 0; i < NUMERO_MATRIZ; i++) {
+		for (int i = 0; i < MZ; i++) {
 			suma += registro[metodo][i];
 		}
 		
-		return suma / NUMERO_MATRIZ;
+		return suma / MZ;
 	}
 	
 	public static long rango(int metodo) {
