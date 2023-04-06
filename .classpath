@@ -8,6 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Cristian/OneDrive/Documentos/Universidad/2021-2/Programacion {3}/ws/Analisis-Algoritmos/jfreechart-1.0.19/lib/jcommon-1.0.23.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Cristian/OneDrive/Documentos/Universidad/2021-2/Programacion {3}/ws/Analisis-Algoritmos/jfreechart-1.0.19/lib/jfreechart-1.0.19.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Cristian/OneDrive/Documentos/Universidad/2021-2/Programacion {3}/ws/Analisis-Algoritmos/commons-math3-3.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Cristian/OneDrive/Documentos/Universidad/2021-2/Programacion {3}/ws/Analisis-Algoritmos/commons-math 3-3.6.1/commons-math3-3.6.1.jar"/>
 	<classpathentry kind="output" path="out/production/ProyectoAnalisisAlgoritmos"/>
 </classpath>

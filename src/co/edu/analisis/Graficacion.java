@@ -144,17 +144,17 @@ public class Graficacion extends ApplicationFrame {
 
 		ordenar();
 		
-		for (Object[] arreglo : listaPromedio) {
-	    	System.out.println("Nombre del método: " + arreglo[0]);
-	    	System.out.println("Promedio: " + arreglo[1]);
-		}
-	
-		for (int i = 0; i < registro.length; i++) {
-	    	for (int j = 0; j < registro[i].length; j++) {
-	        	System.out.print(registro[i][j] + " ");
-	    	}
-	    	System.out.println();
-		}
+//		for (Object[] arreglo : listaPromedio) {
+//	    	System.out.println("Nombre del método: " + arreglo[0]);
+//	    	System.out.println("Promedio: " + arreglo[1]);
+//		}
+//	
+//		for (int i = 0; i < registro.length; i++) {
+//	    	for (int j = 0; j < registro[i].length; j++) {
+//	        	System.out.print(registro[i][j] + " ");
+//	    	}
+//	    	System.out.println();
+//		}
 		
 		DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
 
@@ -175,7 +175,7 @@ public class Graficacion extends ApplicationFrame {
 		renderer1.setDrawBarOutline(false);
 		chart1.setBackgroundPaint(Color.WHITE);
 
-		plot1.setRangeGridlinePaint(Color.BLACK);
+		plot1.setRangeGridlinePaint(Color.WHITE);
 
 		CategoryAxis axis = plot1.getDomainAxis();
 		axis.setCategoryMargin(0.5);
@@ -199,7 +199,7 @@ public class Graficacion extends ApplicationFrame {
 		renderer2.setDrawBarOutline(false);
 		chart2.setBackgroundPaint(Color.WHITE);
 
-		plot2.setRangeGridlinePaint(Color.BLACK);
+		plot2.setRangeGridlinePaint(Color.WHITE);
 
 		CategoryAxis axis2 = plot2.getDomainAxis();
 		axis2.setCategoryMargin(0.5);
