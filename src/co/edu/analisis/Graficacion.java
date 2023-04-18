@@ -143,15 +143,10 @@ public class Graficacion extends ApplicationFrame {
 		listaOrdenado.addAll(listaPromedio);
 
 		ordenar();
-		
-//		for (Object[] arreglo : listaPromedio) {
-//	    	System.out.println("Nombre del método: " + arreglo[0]);
-//	    	System.out.println("Promedio: " + arreglo[1]);
-//		}
 	
 		for (int i = 0; i < registro.length; i++) {
 	    	for (int j = 0; j < registro[i].length; j++) {
-	        	System.out.print(registro[i][j] + " ");
+	        	System.out.print(registro[i][j] + " | ");
 	    	}
 	    	System.out.println();
 		}
@@ -215,7 +210,7 @@ public class Graficacion extends ApplicationFrame {
 		tableModel.addColumn("Desviación estándar");
 		tableModel.addColumn("Varianza");
 
-		for (int i = 0; i < registro.length; i++) {
+		for (int i = 0; i < registro.length; i++){
 		    String metodo = obtenernombre(i+1);
 		    long[] datos = registro[i];
 		    
@@ -228,8 +223,7 @@ public class Graficacion extends ApplicationFrame {
 		}
 
 		JTable table = new JTable(tableModel);
-		
-		//-
+
 		DefaultCategoryDataset dataset3 = new DefaultCategoryDataset();
 		
 		for (int i = 0; i < registro.length; i++) {
@@ -237,9 +231,9 @@ public class Graficacion extends ApplicationFrame {
 		    	dataset3.setValue(registro[i][j], "Tamaño: " + j, obtenernombre(i + 1));
 		    }
 		}
-		
+
 		JFreeChart chart3 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}", dataset3, PlotOrientation.VERTICAL, true, true, false);
-		
+
 		CategoryPlot plot3 = (CategoryPlot) chart3.getPlot();
 		BarRenderer renderer3 = (BarRenderer) plot3.getRenderer();
 		renderer3.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
@@ -255,8 +249,7 @@ public class Graficacion extends ApplicationFrame {
 		NumberAxis yAxis3 = (NumberAxis) plot3.getRangeAxis();
 		yAxis3.setNumberFormatOverride(new DecimalFormat("#"));
 		axis3.setCategoryMargin(0.3);
-		
-	
+
 		DefaultTableModel tableModel2 = new DefaultTableModel();
 
 		tableModel2.addColumn("Método");
@@ -278,14 +271,12 @@ public class Graficacion extends ApplicationFrame {
 		    row[0] = metodo;
 
 		    for (int j = 0; j < elevacion.length; j++) {
-
 		        row[j+1] = datos[j];
 		    }
 
 		    tableModel2.addRow(row);
 		}
 
-		
 		JTable table2 = new JTable(tableModel2);
 		
 		JPanel chartPanel1 = new ChartPanel(chart1);
@@ -311,12 +302,10 @@ public class Graficacion extends ApplicationFrame {
 		table.setDefaultRenderer(Object.class, renderer);
 		
 		tablePanel.setPreferredSize(new Dimension(1000, 320));
-		
-		
+
 		JPanel chartPanel3 = new ChartPanel(chart3);
 		chartPanel3.setPreferredSize(new Dimension(1000, 900));
-	
-		
+
 		JScrollPane tablePanel2 = new JScrollPane(table2);
 		TitledBorder titledBorder2 = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Llenado de datos", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("TW Cen MT", Font.BOLD, 22));
 		tablePanel2.setBorder(titledBorder2);
