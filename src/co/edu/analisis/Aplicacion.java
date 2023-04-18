@@ -11,7 +11,7 @@ public class Aplicacion {
 
 	public static void main(String[] args) {
 
-		int j = 1;
+		int j = 10;
 
 		double[][] matrizn = leerMatrix("Matriz " + j + ".txt");
 		double[][] matrizm = leerMatrix("Matriz " + j + ".txt");
