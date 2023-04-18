@@ -2,7 +2,7 @@ package co.edu.analisis.model.methods;
 
 public class NaivStandard {
 
-	public double[][] naivStandard(double[][] a, double[][] b, double[][] c, int n, int p, int m) {
+	public double[][] naivStandard(double[][] a, double[][] b, double[][] c, int n, int p, int m) { // m es el tamaño de las columnas de la matriz B
 	    double aux; // variable auxiliar para almacenar el valor temporal del producto de las matrices
 	    for (int i = 0; i < n; i++) { // iteración sobre las filas de la matriz [A]
 	        for (int j = 0; j < m; j++) { // iteración sobre las columnas de la matriz [B]

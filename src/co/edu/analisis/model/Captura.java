@@ -88,7 +88,7 @@ public class Captura {
 
 		int n = a.length;
 		int p = b.length;
-		int m = b[0].length;
+		int m = b[0].length; //
 		
 		double[][] resultadoMatriz;
 		double[][] c = new double[n][m];
