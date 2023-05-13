@@ -5,7 +5,7 @@ public class MultiplicacionAmericanaDinamica {
     //Metodo a la americana Dinamico
     private int[] datos;
 
-    public Arreglo(int[] datos) {
+    public MultiplicacionAmericanaDinamica(int[] datos) {
         this.datos = datos;
     }
 
