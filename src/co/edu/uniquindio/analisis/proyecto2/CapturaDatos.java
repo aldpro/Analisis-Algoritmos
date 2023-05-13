@@ -9,7 +9,7 @@ public class CapturaDatos {
 
         switch (metodo) {
             case 1:
-                ejecucion = capturaNaivStandard(matrizn, matrizm);
+                ejecucion = capturaTiempoAmericanaEstatica(arregloa, arreglob);
                 break;
             case 2:
                 ejecucion = capturaNaivOnArray(matrizn, matrizm);

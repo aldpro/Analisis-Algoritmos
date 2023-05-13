@@ -1,61 +1,49 @@
 package co.edu.uniquindio.analisis.proyecto2.metodos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MultiplicacionInglesaDinamica {
     //Metodo dinamico a la inglesa
-
     public class Arreglo {
 
-        private int[] arreglo;
+        public int[] multiplicaInglesa(int[] arreglo1, int[] arreglo2) {
+            List<Integer> temp = new ArrayList<>();
+            int acarreo = 0;
 
-        public Arreglo(int[] arreglo) {
-            this.arreglo = arreglo;
-        }
-
-        public int[] getArreglo() {
-            return arreglo;
-        }
-
-        public void setArreglo(int[] arreglo) {
-            this.arreglo = arreglo;
-        }
-
-        public int getElemento(int indice) {
-            return arreglo[indice];
-        }
-
-        public void setElemento(int indice, int valor) {
-            arreglo[indice] = valor;
-        }
-
-        public int getLongitud() {
-            return arreglo.length;
-        }
-
-        public void imprimir() {
-            for (int i = 0; i < arreglo.length; i++) {
-                System.out.print(arreglo[i] + " ");
-            }
-            System.out.println();
-        }
-
-        public Arreglo multiplicacionInglesa(Arreglo otro) {
-            int[] a = this.arreglo;
-            int[] b = otro.arreglo;
-
-            int[] resultado = new int[a.length + b.length];
-
-            for (int i = b.length - 1; i >= 0; i--) {
-                int carry = 0;
-                for (int j = a.length - 1; j >= 0; j--) {
-                    int temp = b[i] * a[j] + resultado[i + j + 1] + carry;
-                    resultado[i + j + 1] = temp % 10;
-                    carry = temp / 10;
+            for (int i = arreglo2.length - 1; i >= 0; i--) {
+                for (int j = arreglo1.length - 1; j >= 0; j--) {
+                    int pos = arreglo1.length + arreglo2.length - 2 - i - j;
+                    if (pos >= temp.size()) {
+                        temp.add(0);
+                    }
+                    temp.set(pos, temp.get(pos) + arreglo2[i] * arreglo1[j]);
                 }
-                resultado[i] += carry;
             }
 
-            return new Arreglo(resultado);
-        }
+            int[] resultado = new int[temp.size()];
 
+            for (int i = temp.size() - 1; i >= 0; i--) {
+                int val = temp.get(i) + acarreo;
+                acarreo = val / 10;
+                resultado[i] = val % 10;
+            }
+
+            if (acarreo > 0) {
+                int[] resultadoFinal = new int[resultado.length + 1];
+                resultadoFinal[0] = acarreo;
+                System.arraycopy(resultado, 0, resultadoFinal, 1, resultado.length);
+                return resultadoFinal;
+            } else {
+                return resultado;
+            }
+        }
     }
+
+    //Esta implementación es dinámica porque el tamaño del arreglo resultante no está predeterminado, sino que
+    // se adapta dinámicamente al tamaño de los números que se están multiplicando. En otras palabras,
+    // no es necesario saber de antemano el tamaño máximo del resultado, sino que se crea un arreglo del
+    // tamaño adecuado una vez que se ha realizado la multiplicación. Además, se utiliza una lista dinámica
+    // (ArrayList) en lugar de un arreglo estático para almacenar temporalmente los resultados parciales de
+    // la multiplicación, lo que permite agregar elementos dinámicamente según sea necesario.
 }
