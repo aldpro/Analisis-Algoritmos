@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import co.edu.analisis.model.Captura;
-import co.edu.analisis.model.Metodo;
+import co.edu.uniquindio.analisis.proyectosegundo.Captura;
+import co.edu.uniquindio.analisis.proyectosegundo.Metodo;
 
 public class Aplicacion {
 

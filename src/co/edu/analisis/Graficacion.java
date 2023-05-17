@@ -19,8 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
 
-import co.edu.analisis.model.Captura;
-import co.edu.analisis.model.Metodo;
+import co.edu.uniquindio.analisis.proyectosegundo.Captura;
+import co.edu.uniquindio.analisis.proyectosegundo.Metodo;
 
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
