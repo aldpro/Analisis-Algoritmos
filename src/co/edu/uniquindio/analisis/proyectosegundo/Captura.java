@@ -34,26 +34,25 @@ public class Captura {
 			ejecucion = capturaAmericanoRecursivoEstatico(arregloa, arreglob);
 			break;
 		case 4:
-			ejecucion = capturaAmericanoIterativoDinamico(arregloa, arreglob);
-//			ejecucion = capturaAmericanoRecursivoDinamico(arregloa, arreglob);
+			ejecucion = capturaAmericanoRecursivoDinamico(arregloa, arreglob);
 			break;
 		case 5:
 			ejecucion = capturaInglesaIterativoEstatico(arregloa, arreglob);
 			break;
 		case 6:
-			  ejecucion = capturaInglesaIterativoDinamico(arregloa, arreglob);
+			  ejecucion = capturaInglesaIterativoDinamico(arregloa, arreglob);//X
 			break;
 		case 7:
-			  ejecucion = capturaInglesaRecursivoEstatico(arregloa, arreglob);
+			  ejecucion = capturaInglesaRecursivoEstatico(arregloa, arreglob);//X
 			break;
 		case 8:
-			  ejecucion = capturaInglesaRecursivoDinamico(arregloa, arreglob);
+			  ejecucion = capturaInglesaRecursivoDinamico(arregloa, arreglob);//X
 			break;
 		case 9:
-			  ejecucion = capturaHindu(arregloa, arreglob); //Modificar por el algoritmo: Cadena
+			  ejecucion = capturaRusa(arregloa, arreglob); //Cadena
 			break;
 		case 10:
-			  ejecucion = capturaHindu(arregloa, arreglob);
+			  ejecucion = capturaHindu(arregloa, arreglob);//X
 			break;
 		case 11:
 			  ejecucion = capturaEgipcia(arregloa, arreglob);
@@ -122,7 +121,7 @@ public class Captura {
 		
 		long inicioTiempo = System.nanoTime();
 
-		resultado = metodo.multiplicacionAmericanaRecursiva(a, b);
+		resultado = metodo.multiplicacionAmericana(a, b);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -230,7 +229,7 @@ public class Captura {
 		
 		long inicioTiempo = System.nanoTime();
 
-		resultado = metodo(a, b);
+		resultado = metodo.multiplicar(a, b);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;

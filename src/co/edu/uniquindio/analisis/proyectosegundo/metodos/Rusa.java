@@ -1,8 +1,31 @@
 package co.edu.uniquindio.analisis.proyectosegundo.metodos;
 
+import java.util.Arrays;
+
 public class Rusa {
 
-	
+    public static int[] multiplicar(int[] num1, int[] num2) {
+        int len1 = num1.length;
+        int len2 = num2.length;
+        int[] resultado = new int[len1 + len2];
+
+        for (int i = len1 - 1; i >= 0; i--) {
+            for (int j = len2 - 1; j >= 0; j--) {
+                int producto = num1[i] * num2[j];
+                int pos1 = i + j;
+                int pos2 = i + j + 1;
+                int suma = producto + resultado[pos2];
+
+                resultado[pos1] += suma / 10;
+                resultado[pos2] = suma % 10;
+            }
+        }
+
+        return resultado;
+    }
+
+
+
 	
 //	public static void main(String[] args) {
 //		int multiplicador = 221;

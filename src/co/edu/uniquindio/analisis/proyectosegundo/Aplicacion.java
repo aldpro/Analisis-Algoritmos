@@ -14,6 +14,7 @@ public class Aplicacion {
 
 		for (int i = 1; i <= 15; i++) {
 			resultado(a, b, i);
+			System.out.println(i);
 		}
 	}
 
