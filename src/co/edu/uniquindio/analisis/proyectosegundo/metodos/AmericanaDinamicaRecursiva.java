@@ -3,7 +3,7 @@ package co.edu.uniquindio.analisis.proyectosegundo.metodos;
 import java.util.Arrays;
 
 public class AmericanaDinamicaRecursiva {
-
+	
 	public int[] multiplicacionAmericana(int[] arreglo1, int[] arreglo2) {
 		int n = arreglo1.length;
 		int m = arreglo2.length;

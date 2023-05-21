@@ -20,54 +20,55 @@ import co.edu.uniquindio.analisis.proyectosegundo.metodos.DivideVencerasII;
 
 public class Captura {
 
-	public Object[] consultaMetodo(int[] arreglo1, int[] arreglo2, int metodo) {
+	public Object[] consultaMetodo(int[] arregloa, int[] arreglob, int metodo) {
 		Object[] ejecucion = null;
 		
 		switch (metodo) {
 		case 1:
-			ejecucion = capturaAmericanoIterativoEstatico(arreglo1, arreglo2);
+			ejecucion = capturaAmericanoIterativoEstatico(arregloa, arreglob);
 			break;
 		case 2:
-			ejecucion = capturaAmericanoIterativoDinamico(arreglo1, arreglo2);
+			ejecucion = capturaAmericanoIterativoDinamico(arregloa, arreglob);
 			break;
 		case 3:
-			ejecucion = capturaAmericanoRecursivoEstatico(arreglo1, arreglo2);
+			ejecucion = capturaAmericanoRecursivoEstatico(arregloa, arreglob);
 			break;
 		case 4:
-			ejecucion = capturaAmericanoRecursivoDinamico(arreglo1, arreglo2);
+			ejecucion = capturaAmericanoIterativoDinamico(arregloa, arreglob);
+//			ejecucion = capturaAmericanoRecursivoDinamico(arregloa, arreglob);
 			break;
 		case 5:
-			ejecucion = capturaInglesaIterativoEstatico(arreglo1, arreglo2);
+			ejecucion = capturaInglesaIterativoEstatico(arregloa, arreglob);
 			break;
 		case 6:
-			  ejecucion = capturaInglesaIterativoDinamico(arreglo1, arreglo2);
+			  ejecucion = capturaInglesaIterativoDinamico(arregloa, arreglob);
 			break;
 		case 7:
-			  ejecucion = capturaInglesaRecursivoEstatico(arreglo1, arreglo2);
+			  ejecucion = capturaInglesaRecursivoEstatico(arregloa, arreglob);
 			break;
 		case 8:
-			  ejecucion = capturaInglesaRecursivoDinamico(arreglo1, arreglo2);
+			  ejecucion = capturaInglesaRecursivoDinamico(arregloa, arreglob);
 			break;
 		case 9:
-			  ejecucion = capturaHindu(arreglo1, arreglo2); //Modificar por el algoritmo: Cadena
+			  ejecucion = capturaHindu(arregloa, arreglob); //Modificar por el algoritmo: Cadena
 			break;
 		case 10:
-			  ejecucion = capturaHindu(arreglo1, arreglo2);
+			  ejecucion = capturaHindu(arregloa, arreglob);
 			break;
 		case 11:
-			  ejecucion = capturaEgipcia(arreglo1, arreglo2);
+			  ejecucion = capturaEgipcia(arregloa, arreglob);
 			break;
 		case 12:
-			  ejecucion = capturaKaratsuba(arreglo1, arreglo2);
+			  ejecucion = capturaKaratsuba(arregloa, arreglob);
 			break;
 		case 13:
-			  ejecucion = capturaDivideVencerasI(arreglo1, arreglo2); //Modificar por el algoritmo: Cadena
+			  ejecucion = capturaDivideVencerasI(arregloa, arreglob); //Modificar por el algoritmo: Cadena
 			break;
 		case 14:
-			  ejecucion = capturaDivideVencerasI(arreglo1, arreglo2);
+			  ejecucion = capturaDivideVencerasI(arregloa, arreglob);
 			break;
 		case 15:
-			  ejecucion = capturaDivideVencerasII(arreglo1, arreglo2);
+			  ejecucion = capturaDivideVencerasII(arregloa, arreglob);
 			break;
 		default:
 			ejecucion = null;
@@ -221,23 +222,23 @@ public class Captura {
 		return respuesta;
 	}
 	
-//	public Object[] capturaRusa(int[] a, int[] b) {
-//
-//		Rusa metodo = new Rusa();
-//		
-//		int[] resultado;
-//		
-//		long inicioTiempo = System.nanoTime();
-//
-//		resultado = metodo(a, b);
-//
-//		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
-//		long tiempo = finTiempo - inicioTiempo;
-//
-//		Object[] respuesta = { tiempo, resultado };
-//
-//		return respuesta;
-//	}
+	public Object[] capturaRusa(int[] a, int[] b) {
+
+		Rusa metodo = new Rusa();
+		
+		int[] resultado;
+		
+		long inicioTiempo = System.nanoTime();
+
+		resultado = metodo(a, b);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultado };
+
+		return respuesta;
+	}
 	
 	public Object[] capturaHindu(int[] a, int[] b) {
 

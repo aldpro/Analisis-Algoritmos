@@ -29,9 +29,9 @@ public class Aplicacion {
 		long tiempo = (long) resultado[0];
 		int[] matrizResultado = (int[]) resultado[1];
 
-		imprimirArreglo(a, "A");
-		imprimirArreglo(b, "B");
-		imprimirArreglo(matrizResultado, "C");
+		imprimirArreglo(a, "Matriz A");
+		imprimirArreglo(b, "Matriz B");
+		imprimirArreglo(matrizResultado, "Matriz C");
 
 		System.out.println("Tiempo: " + tiempo + " [milisegundos]" + "\n" + "Algoritmo: " + nombreMetodo + "\n");
 	}
