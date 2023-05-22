@@ -3,6 +3,7 @@ package co.edu.uniquindio.analisis.proyectosegundo;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -63,7 +64,7 @@ public class Graficacion extends ApplicationFrame {
 	}
 
 	public static long tiempo(int[] a, int[] b, ArrayList<Integer> dinamicoa, ArrayList<Integer> dinamicob,
-			int metodo) {
+							  int metodo) {
 		Captura captura = new Captura();
 
 		Object[] resultado = captura.consultaMetodo(a, b, dinamicoa, dinamicob, metodo);
@@ -72,7 +73,7 @@ public class Graficacion extends ApplicationFrame {
 		return tiempo;
 	}
 
-	public static String obtenernombre(int metodo) {
+	public static String obtenerNombre(int metodo) {
 		Metodo mapa = new Metodo();
 
 		String nombreMetodo = " ";
@@ -92,7 +93,7 @@ public class Graficacion extends ApplicationFrame {
 		}
 
 		promedio = suma / P;
-		nombre = obtenernombre(metodo);
+		nombre = obtenerNombre(metodo);
 
 		Object[] respuesta = { nombre, promedio };
 
@@ -176,12 +177,47 @@ public class Graficacion extends ApplicationFrame {
 
 		ordenar();
 
-		for (int i = 0; i < registro.length; i++) {
-			for (int j = 0; j < registro[i].length; j++) {
-				System.out.print(registro[i][j] + " | ");
+		// C?lculo del ancho m?ximo de la columna de nombres
+		int nameWidth = 0;
+		for (int fila = 0; fila < registro.length; fila++) {
+			int nameLength = obtenerNombre(fila + 1).length();
+			if (nameLength > nameWidth) {
+				nameWidth = nameLength;
 			}
-			System.out.println();
 		}
+
+		// C?lculo del ancho m?ximo de cada columna
+		int[] columnWidths = new int[registro[0].length];
+		for (int fila = 0; fila < registro.length; fila++) {
+			for (int columna = 0; columna < registro[fila].length; columna++) {
+				int numberLength = Integer.toString((int) registro[fila][columna]).length();
+				if (numberLength > columnWidths[columna]) {
+					columnWidths[columna] = numberLength;
+				}
+			}
+		}
+
+		// Imprimir los datos con el ancho m?ximo de cada columna
+		try {
+			FileWriter writer = new FileWriter("registros.txt", true);
+
+
+			for (int fila = 0; fila < registro.length; fila++) {
+
+				writer.write(String.format("%-" + (nameWidth + 1) + "s |", obtenerNombre(fila + 1)));
+				for (int columna = 0; columna < registro[fila].length; columna++) {
+
+					writer.write(String.format("%" + (columnWidths[columna] + 1) + "d |", registro[fila][columna]));
+
+				}
+				writer.write("\n");
+			}
+			writer.write("\n");
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 
 		DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
 
@@ -191,7 +227,7 @@ public class Graficacion extends ApplicationFrame {
 			dataset1.setValue(tiempo, "Metodo", nombre);
 		}
 
-		JFreeChart chart1 = ChartFactory.createBarChart("Promedio", " Métodos ", "Tiempo {nanosegundos}", dataset1,
+		JFreeChart chart1 = ChartFactory.createBarChart("Promedio", " M?todos ", "Tiempo {nanosegundos}", dataset1,
 				PlotOrientation.VERTICAL, false, true, false);
 
 		CategoryPlot plot1 = (CategoryPlot) chart1.getPlot();
@@ -219,7 +255,7 @@ public class Graficacion extends ApplicationFrame {
 			dataset2.setValue(tiempo, "Metodo", nombre);
 		}
 
-		JFreeChart chart2 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}",
+		JFreeChart chart2 = ChartFactory.createBarChart("Orden Ascendente", " M?todos ", "Tiempo {nanosegundos}",
 				dataset2, PlotOrientation.VERTICAL, false, true, false);
 
 		CategoryPlot plot2 = (CategoryPlot) chart2.getPlot();
@@ -240,14 +276,14 @@ public class Graficacion extends ApplicationFrame {
 		axis2.setCategoryMargin(0.5);
 
 		DefaultTableModel tableModel = new DefaultTableModel();
-		tableModel.addColumn("Método");
+		tableModel.addColumn("M?todo");
 		tableModel.addColumn("Media");
 		tableModel.addColumn("Rango");
-		tableModel.addColumn("Desviación estándar");
+		tableModel.addColumn("Desviaci?n est?ndar");
 		tableModel.addColumn("Varianza");
 
 		for (int i = 0; i < registro.length; i++) {
-			String metodo = obtenernombre(i + 1);
+			String metodo = obtenerNombre(i + 1);
 			long[] datos = registro[i];
 
 			long media = media(i);
@@ -264,11 +300,11 @@ public class Graficacion extends ApplicationFrame {
 
 		for (int i = 0; i < registro.length; i++) {
 			for (int j = 0; j < registro[i].length; j++) {
-				dataset3.setValue(registro[i][j], "Tamaño: " + j, obtenernombre(i + 1));
+				dataset3.setValue(registro[i][j], "Tama?o: " + j, obtenerNombre(i + 1));
 			}
 		}
 
-		JFreeChart chart3 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}",
+		JFreeChart chart3 = ChartFactory.createBarChart("Orden Ascendente", " M?todos ", "Tiempo {nanosegundos}",
 				dataset3, PlotOrientation.VERTICAL, true, true, false);
 
 		CategoryPlot plot3 = (CategoryPlot) chart3.getPlot();
@@ -290,7 +326,7 @@ public class Graficacion extends ApplicationFrame {
 
 		DefaultTableModel tableModel2 = new DefaultTableModel();
 
-		tableModel2.addColumn("Método");
+		tableModel2.addColumn("M?todo");
 
 		int[] elevacion = new int[P];
 
@@ -305,7 +341,7 @@ public class Graficacion extends ApplicationFrame {
 		}
 
 		for (int i = 0; i < registro.length; i++) {
-			String metodo = obtenernombre(i + 1);
+			String metodo = obtenerNombre(i + 1);
 			long[] datos = registro[i];
 
 			Object[] row = new Object[elevacion.length + 1];
