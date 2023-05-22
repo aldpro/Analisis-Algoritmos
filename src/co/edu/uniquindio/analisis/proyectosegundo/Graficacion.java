@@ -111,7 +111,7 @@ public class Graficacion extends ApplicationFrame {
 
 	public static void recorrer(int metodo) {
 
-		int n = 9;
+		int n = 10;
 		for (int j = 1; j <= P; j++) {
 
 			int[] a = leerCasosEstatico("Caso" + "-" + j + ".txt", n);
@@ -120,7 +120,7 @@ public class Graficacion extends ApplicationFrame {
 			ArrayList<Integer> dinamicob = leerCasosDinamico("Caso" + "-" + j + ".txt", n);
 
 			registro[metodo - 1][j - 1] = tiempo(a, b, dinamicoa, dinamicob, metodo);
-			n = +9;
+			n = +10;
 		}
 
 	}
@@ -294,14 +294,14 @@ public class Graficacion extends ApplicationFrame {
 
 		int[] elevacion = new int[P];
 
-		int x = 9;
-		
+		int x = 10;
+
 		for (int i = 1; i <= P; i++) {
 			int resultado = x;
 
 			tableModel2.addColumn("t: " + i + "[" + resultado + "]");
 			elevacion[i - 1] = resultado;
-			x += 9;
+			x += 10;
 		}
 
 		for (int i = 0; i < registro.length; i++) {
