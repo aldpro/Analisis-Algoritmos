@@ -11,15 +11,20 @@ public class GeneradorArreglos {
 	public static void main(String[] args) {
 		int n = 10;
 
-		// Crear 8 casos de prueba
+		// Crea los casos de prueba
 		for (int i = 1; i <= 8; i++) {
 			int[] a = generateRandomArray(n);
 			writeTestCaseToFile(a, "Caso" + "-" + i + ".txt");
-			n += 500;
+			n += 10;
 		}
 	}
 
-	// Generar un arreglo de enteros aleatorios con n elementos
+	/**
+	 * Generar un arreglo de enteros aleatorios con n elementos
+	 * 
+	 * @param n
+	 * @return arreglo
+	 */
 	private static int[] generateRandomArray(int n) {
 		int[] array = new int[n];
 		Random random = new Random();
@@ -30,7 +35,12 @@ public class GeneradorArreglos {
 		return array;
 	}
 
-	// Escribir los dos arreglos de enteros en un archivo de texto
+	/**
+	 * Escribir los dos arreglos de enteros en un archivo de texto
+	 * 
+	 * @param a
+	 * @param fileName
+	 */
 	private static void writeTestCaseToFile(int[] a, String fileName) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
 			writer.write(Arrays.toString(a));

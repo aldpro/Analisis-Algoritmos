@@ -1,5 +1,6 @@
 package co.edu.uniquindio.analisis.proyectosegundo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -7,6 +8,7 @@ import co.edu.uniquindio.analisis.proyectosegundo.metodos.AmericanaDinamicaItera
 import co.edu.uniquindio.analisis.proyectosegundo.metodos.AmericanaDinamicaRecursiva;
 import co.edu.uniquindio.analisis.proyectosegundo.metodos.AmericanaEstaticaIterativa;
 import co.edu.uniquindio.analisis.proyectosegundo.metodos.AmericanaEstaticaRecursiva;
+import co.edu.uniquindio.analisis.proyectosegundo.metodos.Cadena;
 import co.edu.uniquindio.analisis.proyectosegundo.metodos.InglesaDinamicaIterativa;
 import co.edu.uniquindio.analisis.proyectosegundo.metodos.InglesaDinamicaRecursiva;
 import co.edu.uniquindio.analisis.proyectosegundo.metodos.InglesaEstaticaIterativa;
@@ -20,48 +22,48 @@ import co.edu.uniquindio.analisis.proyectosegundo.metodos.DivideVencerasII;
 
 public class Captura {
 
-	public Object[] consultaMetodo(int[] arregloa, int[] arreglob, int metodo) {
-		Object[] ejecucion = null;
+	public Object[] consultaMetodo(int[] arregloa, int[] arreglob, ArrayList<Integer> dinamicoa, ArrayList<Integer> dinamicob, int metodo) {
+		Object[] ejecucion = null; 
 		
 		switch (metodo) {
 		case 1:
 			ejecucion = capturaAmericanoIterativoEstatico(arregloa, arreglob);
 			break;
 		case 2:
-			ejecucion = capturaAmericanoIterativoDinamico(arregloa, arreglob);
+			ejecucion = capturaAmericanoIterativoDinamico(dinamicoa, dinamicob);
 			break;
 		case 3:
 			ejecucion = capturaAmericanoRecursivoEstatico(arregloa, arreglob);
 			break;
 		case 4:
-			ejecucion = capturaAmericanoRecursivoDinamico(arregloa, arreglob);
+			ejecucion = capturaAmericanoRecursivoDinamico(dinamicoa, dinamicob);
 			break;
 		case 5:
 			ejecucion = capturaInglesaIterativoEstatico(arregloa, arreglob);
 			break;
 		case 6:
-			  ejecucion = capturaInglesaIterativoDinamico(arregloa, arreglob);//X
+			  ejecucion = capturaInglesaIterativoDinamico(dinamicoa, dinamicob);
 			break;
 		case 7:
-			  ejecucion = capturaInglesaRecursivoEstatico(arregloa, arreglob);//X
+			  ejecucion = capturaInglesaRecursivoEstatico(arregloa, arreglob);
 			break;
 		case 8:
-			  ejecucion = capturaInglesaRecursivoDinamico(arregloa, arreglob);//X
+			  ejecucion = capturaInglesaRecursivoDinamico(dinamicoa, dinamicob);
 			break;
 		case 9:
-			  ejecucion = capturaRusa(arregloa, arreglob); //Cadena
+			  ejecucion = capturaRusa(arregloa, arreglob);
 			break;
 		case 10:
-			  ejecucion = capturaHindu(arregloa, arreglob);//X
+			  ejecucion = capturaHindu(arregloa, arreglob);
 			break;
 		case 11:
-			  ejecucion = capturaEgipcia(arregloa, arreglob);
+			  ejecucion = capturaEgipcia(arregloa, arreglob);//X
 			break;
 		case 12:
 			  ejecucion = capturaKaratsuba(arregloa, arreglob);
 			break;
 		case 13:
-			  ejecucion = capturaDivideVencerasI(arregloa, arreglob); //Modificar por el algoritmo: Cadena
+			  ejecucion = capturaCadena(arregloa, arreglob); //Sirvio a la primera
 			break;
 		case 14:
 			  ejecucion = capturaDivideVencerasI(arregloa, arreglob);
@@ -95,11 +97,11 @@ public class Captura {
 		return respuesta;
 	}
 	
-	public Object[] capturaAmericanoIterativoDinamico(int[] a, int[] b) {
+	public Object[] capturaAmericanoIterativoDinamico(ArrayList<Integer> a, ArrayList<Integer> b) {
 
 		AmericanaDinamicaIterativa metodo = new AmericanaDinamicaIterativa();
 		
-		int[] resultado;
+		ArrayList<Integer> resultado;
 		
 		long inicioTiempo = System.nanoTime();
 
@@ -131,11 +133,11 @@ public class Captura {
 		return respuesta;
 	}
 	
-	public Object[] capturaAmericanoRecursivoDinamico(int[] a, int[] b) {
+	public Object[] capturaAmericanoRecursivoDinamico(ArrayList<Integer> a, ArrayList<Integer> b) {
 
 		AmericanaDinamicaRecursiva metodo = new AmericanaDinamicaRecursiva();
 		
-		int[] resultado;
+		ArrayList<Integer> resultado;
 		
 		long inicioTiempo = System.nanoTime();
 
@@ -167,11 +169,11 @@ public class Captura {
 		return respuesta;
 	}
 	
-	public Object[] capturaInglesaIterativoDinamico(int[] a, int[] b) {
+	public Object[] capturaInglesaIterativoDinamico(ArrayList<Integer> a, ArrayList<Integer> b) {
 
 		InglesaDinamicaIterativa metodo = new InglesaDinamicaIterativa();
 		
-		int[] resultado;
+		ArrayList<Integer> resultado;
 		
 		long inicioTiempo = System.nanoTime();
 
@@ -203,15 +205,15 @@ public class Captura {
 		return respuesta;
 	}
 	
-	public Object[] capturaInglesaRecursivoDinamico(int[] a, int[] b) {
+	public Object[] capturaInglesaRecursivoDinamico(ArrayList<Integer> a, ArrayList<Integer> b) {
 
 		InglesaDinamicaRecursiva metodo = new InglesaDinamicaRecursiva();
 		
-		int[] resultado;
+		ArrayList<Integer> resultado;
 		
 		long inicioTiempo = System.nanoTime();
 
-		resultado = metodo.multiplicaInglesaRecursiva(a, b);
+		resultado = metodo.multiplicaInglesa(a, b);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -243,13 +245,11 @@ public class Captura {
 
 		Hindu metodo = new Hindu();
 		
-		int n = a.length;
-		
-		int[] resultado = new int[n];
+		int[] resultado;
 		
 		long inicioTiempo = System.nanoTime();
 
-		metodo.multiplicarHindu(a, b, resultado);
+		resultado = metodo.multiplicacionHindu(a, b);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -267,7 +267,7 @@ public class Captura {
 		
 		long inicioTiempo = System.nanoTime();
 
-		resultado = metodo.egipcio(a, b);
+		resultado = metodo.multiplyEgipcian(a, b);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -285,7 +285,25 @@ public class Captura {
 		
 		long inicioTiempo = System.nanoTime();
 
-		resultado = metodo.karatsuba(a, b);
+		resultado = metodo.Multiplication(a, b);
+
+		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
+		long tiempo = finTiempo - inicioTiempo;
+
+		Object[] respuesta = { tiempo, resultado };
+
+		return respuesta;
+	}
+	
+	public Object[] capturaCadena(int[] a, int[] b) {
+
+		Cadena metodo = new Cadena();
+		
+		int[] resultado;
+		
+		long inicioTiempo = System.nanoTime();
+
+		resultado = metodo.multiply(a, b);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -307,7 +325,7 @@ public class Captura {
 		
 		long inicioTiempo = System.nanoTime();
 
-		resultado = metodo.multiplicar(a, b);
+		resultado = metodo.multiplicacionDivideVenceras(a, b);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;
@@ -325,7 +343,7 @@ public class Captura {
 		
 		long inicioTiempo = System.nanoTime();
 
-		resultado = metodo.multiplicar(a, b);
+		resultado = metodo.divideVenceras(a, b);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;

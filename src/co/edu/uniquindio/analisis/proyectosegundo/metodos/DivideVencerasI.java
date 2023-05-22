@@ -1,117 +1,197 @@
 package co.edu.uniquindio.analisis.proyectosegundo.metodos;
 
+import java.util.Arrays;
+
 public class DivideVencerasI {
 
-	public int[] divideVenceras1(int vec1[],int vec2[],int n) {
-		int[] resultado, x, y, z, w, r, auxr, s, auxs, t, auxt, u, res, res2, res3;
-		if(n==2)
-		{
-			resultado = AlgoritmoTradicional(vec1,vec2,n);
-			return resultado;
-		}else{
-			x = new int[(n + 1) / 2];
-			y = new int[(n + 1) / 2];
-			z = new int[(n + 1) / 2];
-			w = new int[(n + 1) / 2];
-			for (int i = 0; i < (n + 1) / 2; i++) {
-				w[i] = vec1[i];
-				y[i] = vec2[i];
-				x[i] = vec1[i + (n + 1) / 2];
-				z[i] = vec2[i + (n + 1) / 2];
+	public int[] multiplicacionDivideVenceras(int[] num1, int[] num2) {
+		int tam = num1.length + num2.length;
+		int tamArreglos = 0;
+		int[] resultado = new int[tam];
+		int multiplicador = 0;
+		int multiplicado = 0;
+		int[] result;
+		int desplazo = 0;
+
+		if (num1.length > num2.length) {
+			tamArreglos = num1.length;
+		} else {
+			tamArreglos = num2.length;
+		}
+
+		while ((tamArreglos & (tamArreglos - 1)) != 0) {
+			tamArreglos++;
+		}
+
+		int[] aux1 = new int[tamArreglos];
+		int[] aux2 = new int[tamArreglos];
+
+		for (int j = tamArreglos - num1.length, y = 0; j < aux1.length; j++, y++) {
+			aux1[j] = num1[y];
+		}
+		for (int j = tamArreglos - num2.length, y = 0; j < aux2.length; j++, y++) {
+			aux2[j] = num2[y];
+		}
+		StringBuilder sb = new StringBuilder();
+		StringBuilder sb2 = new StringBuilder();
+
+		for (int i = 0; i < aux1.length / 2; i++) {
+			sb.append(aux1[i]);
+			sb2.append(aux2[i]);
+			String numeroConcatenadoStr = sb.toString();
+			String numeroConcatenadoStr2 = sb2.toString();
+			try {
+				multiplicador = Integer.parseInt(numeroConcatenadoStr);
+				multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			} catch (NumberFormatException e) {
+				System.out.print("");
+
 			}
-			r = new int[2 * n];
-			auxr = new int[2 * n];
-			iniceros(r, 2 * n);
-			auxr = divideVenceras1(w, y, (n + 1) / 2);
-			for (int i = 0; i < 2 * n; i++) {
-				r[i] = auxr[i];
+		}
+
+		desplazo = aux1.length;
+
+		int[] multiplicadoA = guardarNumeroEnArreglo(multiplicado);
+		int[] multiplicadorA = guardarNumeroEnArreglo(multiplicador);
+
+		result = americano(multiplicadoA, multiplicadorA);
+		guardarNumeroArreglo(result, desplazo, resultado);
+		sb = new StringBuilder();
+		sb2 = new StringBuilder();
+
+		for (int i = 0, j = aux2.length / 2; i < aux1.length / 2; i++, j++) {
+			sb.append(aux1[i]);
+			sb2.append(aux2[j]);
+			String numeroConcatenadoStr = sb.toString();
+			String numeroConcatenadoStr2 = sb2.toString();
+			try {
+				multiplicador = Integer.parseInt(numeroConcatenadoStr);
+				multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			} catch (NumberFormatException e) {
+				System.out.print("");
+
 			}
-			s = new int[n + (n + 1) / 2];
-			auxs = new int[n + (n + 1) / 2];
-			iniceros(s, n + (n + 1) / 2);
-			auxs = divideVenceras1(w, z, (n + 1) / 2);
-			for (int i = 0; i < n + (n + 1) / 2; i++) {
-				s[i] = auxs[i];
+		}
+		desplazo = aux1.length / 2;
+		multiplicadoA = guardarNumeroEnArreglo(multiplicado);
+		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
+		result = americano(multiplicadoA, multiplicadorA);
+		guardarNumeroArreglo(result, desplazo, resultado);
+		sb = new StringBuilder();
+		sb2 = new StringBuilder();
+
+		for (int i = 0, j = aux2.length / 2; i < aux1.length / 2; i++, j++) {
+			sb.append(aux1[j]);
+			sb2.append(aux2[i]);
+			String numeroConcatenadoStr = sb.toString();
+			String numeroConcatenadoStr2 = sb2.toString();
+			try {
+				multiplicador = Integer.parseInt(numeroConcatenadoStr);
+				multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			} catch (NumberFormatException e) {
+				System.out.print("");
+
 			}
-			t = new int[(n + 1) / 2 + n];
-			auxt = new int[(n + 1) / 2 + n];
-			iniceros(t, (n + 1) / 2 + n);
-			auxt = divideVenceras1(x, y, (n + 1) / 2);
-			for (int i = 0; i < (n + 1) / 2 + n; i++) {
-				t[i] = auxt[i];
+		}
+		multiplicadoA = guardarNumeroEnArreglo(multiplicado);
+		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
+		result = americano(multiplicadoA, multiplicadorA);
+		guardarNumeroArreglo(result, desplazo, resultado);
+		sb = new StringBuilder();
+		sb2 = new StringBuilder();
+
+		for (int j = aux2.length / 2; j < aux1.length; j++) {
+			sb.append(aux1[j]);
+			sb2.append(aux2[j]);
+			String numeroConcatenadoStr = sb.toString();
+			String numeroConcatenadoStr2 = sb2.toString();
+			try {
+				multiplicador = Integer.parseInt(numeroConcatenadoStr);
+				multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			} catch (NumberFormatException e) {
+				System.out.print("");
+
 			}
-			u = new int[n];
-			iniceros(u, n);
-			u = divideVenceras1(x, z, (n + 1) / 2);
-			res = new int[2 * n];
-			iniceros(res, 2 * n);
-			res = suma(r, 2 * n, s, n + (n + 1) / 2);
-			res2 = new int[(n + 1) / 2 + n];
-			iniceros(res2, (n + 1) / 2 + n);
-			res2 = suma(t, (n + 1) / 2 + n, u, n);
-			res3 = new int[2 * n];
-			iniceros(res3, 2 * n);
-			res3 = suma(res, 2 * n, res2, (n + 1) / 2 + n);
-			return res3;
 		}
-	}
-
-	void iniceros(int arreglo[],int tamano)
-	{
-		for(int i=0; i<tamano; i++)
-		{
-			arreglo[i]=0;
-		}
-	}
-
-	public int[] AlgoritmoTradicional(int[] vec1, int[] vec2, int n) {
-		int[] resultado = new int[n * 2 + 1];
-		int carry = 0;
-
-		for (int i = n - 1; i >= 0; i--) {
-			int multiplicacion = vec1[i] * vec2[i] + carry;
-			resultado[i + n] = multiplicacion % 10;
-			carry = multiplicacion / 10;
-		}
-
-		for (int i = n - 1; i >= 0; i--) {
-			int suma = resultado[i + n] + resultado[i] + carry;
-			resultado[i + n] = suma % 10;
-			carry = suma / 10;
-		}
-
-		if (carry > 0) {
-			resultado[0] = carry;
-		}
-
+		desplazo = 0;
+		multiplicadoA = guardarNumeroEnArreglo(multiplicado);
+		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
+		result = americano(multiplicadoA, multiplicadorA);
+		guardarNumeroArreglo(result, desplazo, resultado);
+		ordernarArreglo(resultado);
 		return resultado;
 	}
 
-	public int[] suma(int[] arreglo1, int tamano1, int[] arreglo2, int tamano2) {
-		int maxTamano = Math.max(tamano1, tamano2);
-		int[] resultado = new int[maxTamano];
-		int carry = 0;
+	/**
+	 * Guarda un n�mero entero en un arreglo, donde cada elemento del arreglo
+	 * representa un d�gito del n�mero.
+	 *
+	 * @param numero El n�mero entero a ser guardado en el arreglo.
+	 * @return Un arreglo de enteros que representa el n�mero.
+	 */
+	public static int[] guardarNumeroEnArreglo(int numero) {
 
-		for (int i = 0; i < maxTamano; i++) {
-			int sum = carry;
-			if (i < tamano1) {
-				sum += arreglo1[i];
-			}
-			if (i < tamano2) {
-				sum += arreglo2[i];
-			}
+		String numeroStr = String.valueOf(numero);
 
-			resultado[i] = sum % 10;
-			carry = sum / 10;
+		int longitud = numeroStr.length();
+
+		int[] arreglo = new int[longitud];
+
+		for (int i = 0; i < longitud; i++) {
+			char digitoChar = numeroStr.charAt(i);
+			int digito = Character.getNumericValue(digitoChar);
+			arreglo[i] = digito;
 		}
+		return arreglo;
+	}
 
-		if (carry > 0) {
-			int[] resultadoFinal = new int[maxTamano];
-			resultadoFinal[0] = carry;
-			System.arraycopy(resultado, 0, resultadoFinal, 1, maxTamano);
-			return resultadoFinal;
-		} else {
-			return resultado;
+
+	public static int[] guardarNumeroArreglo(int[] numero, int desplazo, int[] resultado) {
+		int longitud = numero.length;
+
+		for (int i = longitud - 1, j = resultado.length - desplazo - 1; i >= 0; i--, j--) {
+			resultado[j] += numero[i];
+		}
+		return resultado;
+	}
+
+
+	public static int[] americano(int arreglo1[], int arreglo2[]) {
+		int k = arreglo1.length + arreglo2.length - 1;
+		int pos = arreglo1.length + arreglo2.length - 1;
+		int resultado[] = new int[arreglo1.length + arreglo2.length];
+
+		for (int i = arreglo1.length - 1; i >= 0; i--) {
+			for (int j = arreglo2.length - 1; j >= 0; j--) {
+				resultado[k] = resultado[k] + arreglo1[i] * arreglo2[j];
+
+				if (resultado[k] > 9) {
+					resultado[k - 1] += resultado[k] / 10;
+					resultado[k] = resultado[k] % 10;
+				}
+				k--;
+			}
+			k = pos;
+			pos--;
+			k--;
+		}
+		return resultado;
+	}
+
+
+	public static void ordernarArreglo(int[] resultado) {
+
+		for (int i = resultado.length - 1; i >= 0; i--) {
+
+			if (resultado[i] > 9) {
+
+				resultado[i - 1] += resultado[i] / 10;
+
+				resultado[i] = resultado[i] % 10;
+			} else {
+
+			}
 		}
 	}
+
 }
