@@ -14,7 +14,6 @@ public class Aplicacion {
 
 			int[] a = leerCasosEstatico("Caso" + "-" + 8 + ".txt", n);
 			int[] b = leerCasosEstatico("Caso" + "-" + 8 + ".txt", n);
-
 			ArrayList<Integer> dinamicoa = leerCasosDinamico("Caso" + "-" + 8 + ".txt", n);
 			ArrayList<Integer> dinamicob = leerCasosDinamico("Caso" + "-" + 8 + ".txt", n);
 

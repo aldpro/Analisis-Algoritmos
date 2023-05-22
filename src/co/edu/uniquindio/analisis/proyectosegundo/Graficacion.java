@@ -48,12 +48,12 @@ import org.jfree.util.SortOrder;
 
 public class Graficacion extends ApplicationFrame {
 
-	final static int M = 16;
-	final static int P = 10;
+	final static int M = 15;
+	final static int P = 8;
 	static long[][] registro = new long[M][P];
 	static ArrayList<Object[]> listaPromedio = new ArrayList<Object[]>();
 	static ArrayList<Object[]> listaOrdenado = new ArrayList<Object[]>();
-	
+
 	public static void main(String[] args) {
 
 		Graficacion chart = new Graficacion("Algoritmos");
@@ -62,10 +62,11 @@ public class Graficacion extends ApplicationFrame {
 		chart.setVisible(true);
 	}
 
-	public static long tiempo(double[][] matrizn, double[][] matrizm, int metodo) {
+	public static long tiempo(int[] a, int[] b, ArrayList<Integer> dinamicoa, ArrayList<Integer> dinamicob,
+			int metodo) {
 		Captura captura = new Captura();
 
-		Object[] resultado = captura.consultaMetodo(matrizn, matrizm, metodo);
+		Object[] resultado = captura.consultaMetodo(a, b, dinamicoa, dinamicob, metodo);
 
 		long tiempo = (long) resultado[0];
 		return tiempo;
@@ -79,43 +80,77 @@ public class Graficacion extends ApplicationFrame {
 
 		return nombreMetodo;
 	}
-	
+
 	public static void promedio(int metodo) {
-		
+
 		String nombre = "";
 		long suma = 0;
 		long promedio = 0;
 
 		for (int i = 0; i < P; i++) {
-			suma += registro[metodo-1][i];
+			suma += registro[metodo - 1][i];
 		}
-		
+
 		promedio = suma / P;
 		nombre = obtenernombre(metodo);
-		
+
 		Object[] respuesta = { nombre, promedio };
-		
+
 		listaPromedio.add(respuesta);
 	}
-	
+
 	public static void ordenar() {
-		
-        Collections.sort(listaOrdenado, new Comparator<Object[]>() {
-            @Override
-            public int compare(Object[] o1, Object[] o2) {
-                return ((Long) o1[1]).compareTo((Long) o2[1]);
-            }
-        });
+
+		Collections.sort(listaOrdenado, new Comparator<Object[]>() {
+			@Override
+			public int compare(Object[] o1, Object[] o2) {
+				return ((Long) o1[1]).compareTo((Long) o2[1]);
+			}
+		});
 	}
-	
+
 	public static void recorrer(int metodo) {
-		
+
+		int n = 9;
 		for (int j = 1; j <= P; j++) {
-			double[][] matrizn = leerMatrix("Matriz " + j + ".txt");
-			double[][] matrizm = leerMatrix("Matriz " + j + ".txt");
-			
-			registro[metodo-1][j-1] = tiempo(matrizn, matrizm, metodo);
+
+			int[] a = leerCasosEstatico("Caso" + "-" + j + ".txt", n);
+			int[] b = leerCasosEstatico("Caso" + "-" + j + ".txt", n);
+			ArrayList<Integer> dinamicoa = leerCasosDinamico("Caso" + "-" + j + ".txt", n);
+			ArrayList<Integer> dinamicob = leerCasosDinamico("Caso" + "-" + j + ".txt", n);
+
+			registro[metodo - 1][j - 1] = tiempo(a, b, dinamicoa, dinamicob, metodo);
+			n = +9;
 		}
+
+	}
+
+	private static int[] leerCasosEstatico(String fileName, int n) {
+		int[] array = new int[n];
+		try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+			String line = reader.readLine();
+			String[] digits = line.substring(1, line.length() - 1).split(", ");
+			for (int i = 0; i < n; i++) {
+				array[i] = Integer.parseInt(digits[i]);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return array;
+	}
+
+	private static ArrayList<Integer> leerCasosDinamico(String fileName, int n) {
+		ArrayList<Integer> arrayList = new ArrayList<>();
+		try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+			String line = reader.readLine();
+			String[] digits = line.substring(1, line.length() - 1).split(", ");
+			for (int i = 0; i < n; i++) {
+				arrayList.add(Integer.parseInt(digits[i]));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return arrayList;
 	}
 
 	public Graficacion(String title) {
@@ -126,28 +161,28 @@ public class Graficacion extends ApplicationFrame {
 		theme.setExtraLargeFont(new Font("TW Cen MT", Font.BOLD, 20));
 		theme.setLargeFont(new Font("TW Cen MT", Font.BOLD, 18));
 		theme.setRegularFont(new Font("TW Cen MT", Font.PLAIN, 11));
-		
+
 		ChartFactory.setChartTheme(theme);
 
 		for (int i = 1; i <= M; i++) {
-			recorrer(i);		
+			recorrer(i);
 		}
 
 		for (int i = 1; i <= M; i++) {
 			promedio(i);
 		}
-		
+
 		listaOrdenado.addAll(listaPromedio);
 
 		ordenar();
-	
+
 		for (int i = 0; i < registro.length; i++) {
-	    	for (int j = 0; j < registro[i].length; j++) {
-	        	System.out.print(registro[i][j] + " | ");
-	    	}
-	    	System.out.println();
+			for (int j = 0; j < registro[i].length; j++) {
+				System.out.print(registro[i][j] + " | ");
+			}
+			System.out.println();
 		}
-		
+
 		DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
 
 		for (Object[] arreglo : listaPromedio) {
@@ -156,11 +191,13 @@ public class Graficacion extends ApplicationFrame {
 			dataset1.setValue(tiempo, "Metodo", nombre);
 		}
 
-		JFreeChart chart1 = ChartFactory.createBarChart("Promedio", " Métodos ", "Tiempo {nanosegundos}", dataset1, PlotOrientation.VERTICAL, false, true, false);
+		JFreeChart chart1 = ChartFactory.createBarChart("Promedio", " Métodos ", "Tiempo {nanosegundos}", dataset1,
+				PlotOrientation.VERTICAL, false, true, false);
 
 		CategoryPlot plot1 = (CategoryPlot) chart1.getPlot();
 		BarRenderer renderer1 = (BarRenderer) plot1.getRenderer();
-		renderer1.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
+		renderer1.setBaseItemLabelGenerator(
+				new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
 		renderer1.setBaseItemLabelsVisible(true);
 		renderer1.setItemLabelAnchorOffset(0);
 		renderer1.setItemLabelsVisible(true);
@@ -182,11 +219,13 @@ public class Graficacion extends ApplicationFrame {
 			dataset2.setValue(tiempo, "Metodo", nombre);
 		}
 
-		JFreeChart chart2 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}", dataset2, PlotOrientation.VERTICAL, false, true, false);
-		
+		JFreeChart chart2 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}",
+				dataset2, PlotOrientation.VERTICAL, false, true, false);
+
 		CategoryPlot plot2 = (CategoryPlot) chart2.getPlot();
 		BarRenderer renderer2 = (BarRenderer) plot2.getRenderer();
-		renderer2.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
+		renderer2.setBaseItemLabelGenerator(
+				new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
 		renderer2.setBaseItemLabelsVisible(true);
 		renderer2.setItemLabelAnchorOffset(0);
 		renderer2.setItemLabelsVisible(true);
@@ -199,7 +238,7 @@ public class Graficacion extends ApplicationFrame {
 		NumberAxis yAxis2 = (NumberAxis) plot2.getRangeAxis();
 		yAxis2.setNumberFormatOverride(new DecimalFormat("#"));
 		axis2.setCategoryMargin(0.5);
-		
+
 		DefaultTableModel tableModel = new DefaultTableModel();
 		tableModel.addColumn("Método");
 		tableModel.addColumn("Media");
@@ -207,33 +246,35 @@ public class Graficacion extends ApplicationFrame {
 		tableModel.addColumn("Desviación estándar");
 		tableModel.addColumn("Varianza");
 
-		for (int i = 0; i < registro.length; i++){
-		    String metodo = obtenernombre(i+1);
-		    long[] datos = registro[i];
-		    
-		    long media = media(i);
-		    long rango = rango(i);
-		    long desviacion = (long) new StandardDeviation().evaluate(convertirDouble(datos));
-		    long varianza = (long) new Variance().evaluate(convertirDouble(datos));
+		for (int i = 0; i < registro.length; i++) {
+			String metodo = obtenernombre(i + 1);
+			long[] datos = registro[i];
 
-		    tableModel.addRow(new Object[]{metodo, media, rango, desviacion, varianza});
+			long media = media(i);
+			long rango = rango(i);
+			long desviacion = (long) new StandardDeviation().evaluate(convertirDouble(datos));
+			long varianza = (long) new Variance().evaluate(convertirDouble(datos));
+
+			tableModel.addRow(new Object[] { metodo, media, rango, desviacion, varianza });
 		}
 
 		JTable table = new JTable(tableModel);
 
 		DefaultCategoryDataset dataset3 = new DefaultCategoryDataset();
-		
+
 		for (int i = 0; i < registro.length; i++) {
-		    for (int j = 0; j < registro[i].length; j++) {
-		    	dataset3.setValue(registro[i][j], "Tamaño: " + j, obtenernombre(i + 1));
-		    }
+			for (int j = 0; j < registro[i].length; j++) {
+				dataset3.setValue(registro[i][j], "Tamaño: " + j, obtenernombre(i + 1));
+			}
 		}
 
-		JFreeChart chart3 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}", dataset3, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart chart3 = ChartFactory.createBarChart("Orden Ascendente", " Métodos ", "Tiempo {nanosegundos}",
+				dataset3, PlotOrientation.VERTICAL, true, true, false);
 
 		CategoryPlot plot3 = (CategoryPlot) chart3.getPlot();
 		BarRenderer renderer3 = (BarRenderer) plot3.getRenderer();
-		renderer3.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
+		renderer3.setBaseItemLabelGenerator(
+				new StandardCategoryItemLabelGenerator("{2}", NumberFormat.getNumberInstance()));
 		renderer3.setBaseItemLabelsVisible(true);
 		renderer3.setItemLabelAnchorOffset(0);
 		renderer3.setItemLabelsVisible(true);
@@ -253,29 +294,32 @@ public class Graficacion extends ApplicationFrame {
 
 		int[] elevacion = new int[P];
 
+		int x = 9;
+		
 		for (int i = 1; i <= P; i++) {
-		    int resultado = (int) Math.pow(2, i);
+			int resultado = x;
 
-		    tableModel2.addColumn("t: " + i + "[" + resultado + "]");
-		    elevacion[i-1] = resultado;
+			tableModel2.addColumn("t: " + i + "[" + resultado + "]");
+			elevacion[i - 1] = resultado;
+			x += 9;
 		}
 
 		for (int i = 0; i < registro.length; i++) {
-		    String metodo = obtenernombre(i+1);
-		    long[] datos = registro[i];
+			String metodo = obtenernombre(i + 1);
+			long[] datos = registro[i];
 
-		    Object[] row = new Object[elevacion.length + 1];
-		    row[0] = metodo;
+			Object[] row = new Object[elevacion.length + 1];
+			row[0] = metodo;
 
-		    for (int j = 0; j < elevacion.length; j++) {
-		        row[j+1] = datos[j];
-		    }
+			for (int j = 0; j < elevacion.length; j++) {
+				row[j + 1] = datos[j];
+			}
 
-		    tableModel2.addRow(row);
+			tableModel2.addRow(row);
 		}
 
 		JTable table2 = new JTable(tableModel2);
-		
+
 		JPanel chartPanel1 = new ChartPanel(chart1);
 		chartPanel1.setPreferredSize(new Dimension(1000, 900));
 
@@ -283,9 +327,11 @@ public class Graficacion extends ApplicationFrame {
 		chartPanel2.setPreferredSize(new Dimension(1000, 900));
 
 		JScrollPane tablePanel = new JScrollPane(table);
-		TitledBorder titledBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Representacion", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("TW Cen MT", Font.BOLD, 22));
+		TitledBorder titledBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),
+				"Representacion", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
+				new Font("TW Cen MT", Font.BOLD, 22));
 		tablePanel.setBorder(titledBorder);
-		
+
 		JTableHeader header = table.getTableHeader();
 
 		Font headerFont = new Font("TW Cen MT", Font.BOLD, 18);
@@ -297,16 +343,18 @@ public class Graficacion extends ApplicationFrame {
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setFont(cellFont);
 		table.setDefaultRenderer(Object.class, renderer);
-		
+
 		tablePanel.setPreferredSize(new Dimension(1000, 320));
 
 		JPanel chartPanel3 = new ChartPanel(chart3);
 		chartPanel3.setPreferredSize(new Dimension(1000, 900));
 
 		JScrollPane tablePanel2 = new JScrollPane(table2);
-		TitledBorder titledBorder2 = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Llenado de datos", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("TW Cen MT", Font.BOLD, 22));
+		TitledBorder titledBorder2 = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK),
+				"Llenado de datos", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
+				new Font("TW Cen MT", Font.BOLD, 22));
 		tablePanel2.setBorder(titledBorder2);
-		
+
 		JTableHeader header2 = table2.getTableHeader();
 
 		Font headerFont2 = new Font("TW Cen MT", Font.BOLD, 18);
@@ -318,10 +366,9 @@ public class Graficacion extends ApplicationFrame {
 		DefaultTableCellRenderer renderert = new DefaultTableCellRenderer();
 		renderert.setFont(cellFont2);
 		table2.setDefaultRenderer(Object.class, renderert);
-		
+
 		tablePanel2.setPreferredSize(new Dimension(1000, 320));
-		
-		
+
 		JPanel chartContainer = new JPanel();
 		chartContainer.setLayout(new BorderLayout());
 		chartContainer.add(chartPanel1, BorderLayout.NORTH);
@@ -342,7 +389,7 @@ public class Graficacion extends ApplicationFrame {
 
 		CategoryAxis xAxis1 = chart2.getCategoryPlot().getDomainAxis();
 		xAxis1.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
-		
+
 		CategoryAxis xAxis3 = chart3.getCategoryPlot().getDomainAxis();
 		xAxis3.setCategoryLabelPositions(CategoryLabelPositions.DOWN_90);
 
@@ -352,62 +399,37 @@ public class Graficacion extends ApplicationFrame {
 		setLocationRelativeTo(null);
 	}
 
-	public static double[][] leerMatrix(String fileName) {
-		double[][] matrix = null;
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(fileName));
-			String line;
-			int row = 0;
-			while ((line = reader.readLine()) != null) {
-				String[] values = line.split("\t");
-				if (matrix == null) {
-					matrix = new double[values.length][values.length];
-				}
-				for (int col = 0; col < values.length; col++) {
-					matrix[row][col] = Integer.parseInt(values[col]);
-				}
-				row++;
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return matrix;
-	}
-
-	
 	public static long media(int metodo) {
-		
+
 		long suma = 0;
 
 		for (int i = 0; i < P; i++) {
 			suma += registro[metodo][i];
 		}
-		
+
 		return suma / P;
 	}
-	
+
 	public static long rango(int metodo) {
-	    long[] datos = registro[metodo];
-	    long min = datos[0];
-	    long max = datos[0];
-	    for (int i = 1; i < datos.length; i++) {
-	        if (datos[i] < min) {
-	            min = datos[i];
-	        } else if (datos[i] > max) {
-	            max = datos[i];
-	        }
-	    }
-	    return max - min;
-	}
-	
-	public static double[] convertirDouble(long[] array) {
-	    double[] result = new double[array.length];
-	    for (int i = 0; i < array.length; i++) {
-	        result[i] = (double) array[i];
-	    }
-	    return result;
+		long[] datos = registro[metodo];
+		long min = datos[0];
+		long max = datos[0];
+		for (int i = 1; i < datos.length; i++) {
+			if (datos[i] < min) {
+				min = datos[i];
+			} else if (datos[i] > max) {
+				max = datos[i];
+			}
+		}
+		return max - min;
 	}
 
+	public static double[] convertirDouble(long[] array) {
+		double[] result = new double[array.length];
+		for (int i = 0; i < array.length; i++) {
+			result[i] = (double) array[i];
+		}
+		return result;
+	}
 
 }
