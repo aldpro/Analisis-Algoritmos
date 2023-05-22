@@ -10,13 +10,13 @@ public class Aplicacion {
 
 	public static void main(String[] args) {
 		
-		int n = 50;
+		int n = 60;
 
-		int[] a = leerCasosEstatico("Caso" + "-" + 1 + ".txt", n);
-		int[] b = leerCasosEstatico("Caso" + "-" + 1 + ".txt", n);
+		int[] a = leerCasosEstatico("Caso" + "-" + 6 + ".txt", n);
+		int[] b = leerCasosEstatico("Caso" + "-" + 6 + ".txt", n);
 		
-		ArrayList<Integer> dinamicoa = leerCasosDinamico("Caso" + "-" + 1 + ".txt", n);
-		ArrayList<Integer> dinamicob = leerCasosDinamico("Caso" + "-" + 1 + ".txt", n);
+		ArrayList<Integer> dinamicoa = leerCasosDinamico("Caso" + "-" + 6 + ".txt", n);
+		ArrayList<Integer> dinamicob = leerCasosDinamico("Caso" + "-" + 6 + ".txt", n);
 		
 		for (int i = 1; i <= 15; i++) {
 			resultado(a, b, dinamicoa, dinamicob, i);

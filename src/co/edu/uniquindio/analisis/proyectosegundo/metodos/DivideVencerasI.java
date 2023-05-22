@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class DivideVencerasI {
 
-	public int[] MultiplicacionDivideYVenceras1(int[] num1, int[] num2) {
+	public int[] multiplicacionDivideVenceras(int[] num1, int[] num2) {
 		int tam = num1.length + num2.length;
 		int tamArreglos = 0;
 		int[] resultado = new int[tam];
@@ -40,8 +40,16 @@ public class DivideVencerasI {
 			sb2.append(aux2[i]);
 			String numeroConcatenadoStr = sb.toString();
 			String numeroConcatenadoStr2 = sb2.toString();
-			multiplicador = Integer.parseInt(numeroConcatenadoStr);
-			multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			try {
+			    multiplicador = Integer.parseInt(numeroConcatenadoStr);
+			    multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			} catch (NumberFormatException e) {
+				System.out.print("");
+			    // Opcionalmente, puedes agregar un mensaje más descriptivo:
+			    // System.out.println("Error: formato de número inválido. Cadena: " + numeroConcatenadoStr);
+			    // System.out.println("Error: formato de número inválido. Cadena: " + numeroConcatenadoStr2);
+			    // O bien, simplemente puedes no imprimir ningún mensaje adicional.
+			}
 		}
 		
 		desplazo = aux1.length;
@@ -50,7 +58,7 @@ public class DivideVencerasI {
 		int[] multiplicadorA = guardarNumeroEnArreglo(multiplicador);
 		
 		result = americano(multiplicadoA, multiplicadorA);
-		guardarNumeroEnArreglo(result, desplazo, resultado);
+		guardarNumeroArreglo(result, desplazo, resultado);
 		sb = new StringBuilder();
 		sb2 = new StringBuilder();
 		
@@ -59,14 +67,22 @@ public class DivideVencerasI {
 			sb2.append(aux2[j]);
 			String numeroConcatenadoStr = sb.toString();
 			String numeroConcatenadoStr2 = sb2.toString();
-			multiplicador = Integer.parseInt(numeroConcatenadoStr);
-			multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			try {
+			    multiplicador = Integer.parseInt(numeroConcatenadoStr);
+			    multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			} catch (NumberFormatException e) {
+				System.out.print("");
+			    // Opcionalmente, puedes agregar un mensaje más descriptivo:
+			    // System.out.println("Error: formato de número inválido. Cadena: " + numeroConcatenadoStr);
+			    // System.out.println("Error: formato de número inválido. Cadena: " + numeroConcatenadoStr2);
+			    // O bien, simplemente puedes no imprimir ningún mensaje adicional.
+			}
 		}
 		desplazo = aux1.length / 2;
 		multiplicadoA = guardarNumeroEnArreglo(multiplicado);
 		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
 		result = americano(multiplicadoA, multiplicadorA);
-		guardarNumeroEnArreglo(result, desplazo, resultado);
+		guardarNumeroArreglo(result, desplazo, resultado);
 		sb = new StringBuilder();
 		sb2 = new StringBuilder();
 		
@@ -75,13 +91,21 @@ public class DivideVencerasI {
 			sb2.append(aux2[i]);
 			String numeroConcatenadoStr = sb.toString();
 			String numeroConcatenadoStr2 = sb2.toString();
-			multiplicador = Integer.parseInt(numeroConcatenadoStr);
-			multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			try {
+			    multiplicador = Integer.parseInt(numeroConcatenadoStr);
+			    multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			} catch (NumberFormatException e) {
+				System.out.print("");
+			    // Opcionalmente, puedes agregar un mensaje más descriptivo:
+			    // System.out.println("Error: formato de número inválido. Cadena: " + numeroConcatenadoStr);
+			    // System.out.println("Error: formato de número inválido. Cadena: " + numeroConcatenadoStr2);
+			    // O bien, simplemente puedes no imprimir ningún mensaje adicional.
+			}
 		}
 		multiplicadoA = guardarNumeroEnArreglo(multiplicado);
 		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
 		result = americano(multiplicadoA, multiplicadorA);
-		guardarNumeroEnArreglo(result, desplazo, resultado);
+		guardarNumeroArreglo(result, desplazo, resultado);
 		sb = new StringBuilder();
 		sb2 = new StringBuilder();
 		
@@ -90,14 +114,22 @@ public class DivideVencerasI {
 			sb2.append(aux2[j]);
 			String numeroConcatenadoStr = sb.toString();
 			String numeroConcatenadoStr2 = sb2.toString();
-			multiplicador = Integer.parseInt(numeroConcatenadoStr);
-			multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			try {
+			    multiplicador = Integer.parseInt(numeroConcatenadoStr);
+			    multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+			} catch (NumberFormatException e) {
+			    System.out.print("");
+			    // Opcionalmente, puedes agregar un mensaje más descriptivo:
+			    // System.out.println("Error: formato de número inválido. Cadena: " + numeroConcatenadoStr);
+			    // System.out.println("Error: formato de número inválido. Cadena: " + numeroConcatenadoStr2);
+			    // O bien, simplemente puedes no imprimir ningún mensaje adicional.
+			}
 		}
 		desplazo = 0;
 		multiplicadoA = guardarNumeroEnArreglo(multiplicado);
 		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
 		result = americano(multiplicadoA, multiplicadorA);
-		guardarNumeroEnArreglo(result, desplazo, resultado);
+		guardarNumeroArreglo(result, desplazo, resultado);
 		ordernarArreglo(resultado);
 		return resultado;
 	}
@@ -137,7 +169,7 @@ public class DivideVencerasI {
 	 *                  n�mero.
 	 * @return El arreglo de resultado actualizado con los d�gitos del n�mero.
 	 */
-	public static int[] guardarNumeroEnArreglo(int[] numero, int desplazo, int[] resultado) {
+	public static int[] guardarNumeroArreglo(int[] numero, int desplazo, int[] resultado) {
 		int longitud = numero.length;
 		// Recorre el arreglo 'numero' en orden inverso y guarda los d�gitos en el
 		// arreglo 'resultado'

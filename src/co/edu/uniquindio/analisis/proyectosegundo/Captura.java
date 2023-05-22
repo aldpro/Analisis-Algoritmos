@@ -321,13 +321,11 @@ public class Captura {
 
 		DivideVencerasI metodo = new DivideVencerasI();
 		
-		int tamanio = a.length;
-		
 		int[] resultado;
 		
 		long inicioTiempo = System.nanoTime();
 
-		resultado = metodo.MultiplicacionDivideYVenceras1(a, b);
+		resultado = metodo.multiplicacionDivideVenceras(a, b);
 
 		long finTiempo = System.nanoTime(); // .nanoTime() .currentTimeMillis()
 		long tiempo = finTiempo - inicioTiempo;

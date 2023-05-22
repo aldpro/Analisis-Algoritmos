@@ -9,13 +9,13 @@ import java.util.Random;
 public class GeneradorArreglos {
 
 	public static void main(String[] args) {
-		int n = 50;
+		int n = 10;
 
 		// Crea los casos de prueba
 		for (int i = 1; i <= 8; i++) {
 			int[] a = generateRandomArray(n);
 			writeTestCaseToFile(a, "Caso" + "-" + i + ".txt");
-			n += 50;
+			n += 10;
 		}
 	}
 
