@@ -4,29 +4,58 @@ import java.util.Arrays;
 
 public class DivideVencerasII {
 
+	/**
+	 * Realiza la multiplicación de dos vectores utilizando el enfoque "Divide y Vencerás".
+	 * Si los vectores son suficientemente pequeños, utiliza el enfoque tradicional.
+	 * @param vec1 Primer vector
+	 * @param vec2 Segundo vector
+	 * @return Resultado de la multiplicación
+	 */
 	public int[] divideVenceras(int vec1[], int vec2[]) {
 
+		// Comprobamos si los vectores son lo suficientemente pequeños para utilizar el enfoque tradicional
 		if (vec1.length <= 100 || vec2.length <= 100) {
 			return tradicional(vec1, vec2);
 		}
+		// Obtenemos el tamaño adecuado para los vectores
 		int tam = tamaño(vec1, vec2);
+
+		// Completamos los vectores con ceros para que tengan el mismo tamaño
 		vec1 = completar(vec1, tam, 1);
 		vec2 = completar(vec2, tam, 0);
+
+		// Dividimos los vectores en subvectores
 		int w[] = splitArray(vec1, 1);
 		int x[] = splitArray(vec1, 0);
 		int y[] = splitArray(vec2, 1);
 		int z[] = splitArray(vec2, 0);
+
+		// Realizamos las llamadas recursivas a la función divideVenceras
 		int m1[] = divideVenceras(w, y);
 		int m3[] = divideVenceras(x, z);
 		int r[] = divideVenceras(sumaArray(w, x), sumaArray(y, z));
 		int m2[] = restaArray(r, sumaArray(m1, m3));
+
+		// Combinamos los resultados parciales para obtener el resultado final
 		return sumaArray(sumaArray(completar(m1, m1.length + tam, 0), completar(m2, m2.length + tam / 2, 0)), m3);
 	}
 
+	/**
+	 * Calcula el tamaño máximo entre dos vectores.
+	 * @param vec1 Primer vector
+	 * @param vec2 Segundo vector
+	 * @return Tamaño máximo entre los dos vectores
+	 */
 	public int tamaño(int[] vec1, int[] vec2) {
 		return Math.max(vec1.length, vec2.length);
 	}
 
+	/**
+	 * Realiza la multiplicación de dos vectores utilizando el enfoque tradicional.
+	 * @param vec1 Primer vector
+	 * @param vec2 Segundo vector
+	 * @return Resultado de la multiplicación
+	 */
 	public int[] tradicional(int[] vec1, int[] vec2) {
 		int[] result = new int[vec1.length + vec2.length];
 
@@ -43,6 +72,13 @@ public class DivideVencerasII {
 		return result;
 	}
 
+	/**
+	 * Completa un vector con ceros o copia los elementos de otro vector para que tengan el mismo tamaño.
+	 * @param vec Vector a completar
+	 * @param tam Tamaño deseado
+	 * @param id Identificador para determinar si se completa con ceros (1) o se copian los elementos (0)
+	 * @return Vector completado
+	 */
 	public int[] completar(int vec[], int tam, int id) {
 		int res[];
 		if (tam > vec.length) {
@@ -70,6 +106,12 @@ public class DivideVencerasII {
 		return vec;
 	}
 
+	/**
+	 * Divide un vector en dos partes, según el identificador proporcionado.
+	 * @param vec Vector a dividir
+	 * @param id Identificador para determinar qué parte del vector se devuelve (1 o 0)
+	 * @return Vector dividido
+	 */
 	public int[] splitArray(int vec[], int id) {
 		int tam = vec.length;
 		int res[] = new int[tam / 2];
@@ -83,6 +125,12 @@ public class DivideVencerasII {
 		return res;
 	}
 
+	/**
+	 * Resta dos vectores.
+	 * @param vec Primer vector
+	 * @param vec2 Segundo vector
+	 * @return Resultado de la resta
+	 */
 	public int[] restaArray(int vec[], int vec2[]) {
 		int res[] = new int[vec.length];
 		int k, j = vec2.length - 1;
@@ -108,6 +156,11 @@ public class DivideVencerasII {
 		return res;
 	}
 
+	/**
+	 * Encuentra la posición base del vector, es decir, la primera posición donde el valor no es cero.
+	 * @param v Vector
+	 * @return Posición base
+	 */
 	public int base(int v[]) {
 		int pos = 0;
 		while (v[pos] == 0 && pos < v.length - 1) {
@@ -118,6 +171,12 @@ public class DivideVencerasII {
 		return pos;
 	}
 
+	/**
+	 * Suma dos vectores.
+	 * @param v1 Primer vector
+	 * @param v2 Segundo vector
+	 * @return Resultado de la suma
+	 */
 	public int[] sumaArray(int v1[], int v2[]) {
 		int res[];
 		int mayor[] = v1;

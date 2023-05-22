@@ -13,6 +13,7 @@ public class DivideVencerasI {
 		int[] result;
 		int desplazo = 0;
 
+		// Determinar el tamaño del arreglo más grande
 		if (num1.length > num2.length) {
 			tamArreglos = num1.length;
 		} else {
@@ -26,6 +27,7 @@ public class DivideVencerasI {
 		int[] aux1 = new int[tamArreglos];
 		int[] aux2 = new int[tamArreglos];
 
+		// Llenar los arreglos auxiliares con los números originales
 		for (int j = tamArreglos - num1.length, y = 0; j < aux1.length; j++, y++) {
 			aux1[j] = num1[y];
 		}
@@ -35,6 +37,7 @@ public class DivideVencerasI {
 		StringBuilder sb = new StringBuilder();
 		StringBuilder sb2 = new StringBuilder();
 
+		// Realizar la multiplicación para la primera mitad de los arreglos
 		for (int i = 0; i < aux1.length / 2; i++) {
 			sb.append(aux1[i]);
 			sb2.append(aux2[i]);
@@ -56,9 +59,12 @@ public class DivideVencerasI {
 
 		result = americano(multiplicadoA, multiplicadorA);
 		guardarNumeroArreglo(result, desplazo, resultado);
+
+		// Reiniciar los StringBuilder para el siguiente cálculo
 		sb = new StringBuilder();
 		sb2 = new StringBuilder();
 
+		// Realizar la multiplicación para la segunda mitad de los arreglos
 		for (int i = 0, j = aux2.length / 2; i < aux1.length / 2; i++, j++) {
 			sb.append(aux1[i]);
 			sb2.append(aux2[j]);
@@ -77,9 +83,12 @@ public class DivideVencerasI {
 		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
 		result = americano(multiplicadoA, multiplicadorA);
 		guardarNumeroArreglo(result, desplazo, resultado);
+
+		// Reiniciar los StringBuilder para el siguiente cálculo
 		sb = new StringBuilder();
 		sb2 = new StringBuilder();
 
+		// Realizar la multiplicación para la tercera combinación de mitades de los arreglos
 		for (int i = 0, j = aux2.length / 2; i < aux1.length / 2; i++, j++) {
 			sb.append(aux1[j]);
 			sb2.append(aux2[i]);
@@ -97,9 +106,12 @@ public class DivideVencerasI {
 		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
 		result = americano(multiplicadoA, multiplicadorA);
 		guardarNumeroArreglo(result, desplazo, resultado);
+
+		// Reiniciar los StringBuilder para el siguiente cálculo
 		sb = new StringBuilder();
 		sb2 = new StringBuilder();
 
+		// Realizar la multiplicación para la última parte de los arreglos
 		for (int j = aux2.length / 2; j < aux1.length; j++) {
 			sb.append(aux1[j]);
 			sb2.append(aux2[j]);
@@ -145,7 +157,14 @@ public class DivideVencerasI {
 		return arreglo;
 	}
 
-
+	/**
+	 * Realiza la suma de dos arreglos de números enteros teniendo en cuenta un desplazamiento.
+	 *
+	 * @param numero    El primer arreglo de números enteros.
+	 * @param desplazo  El desplazamiento a tener en cuenta al realizar la suma.
+	 * @param resultado El arreglo en el que se almacenará el resultado de la suma.
+	 * @return El arreglo resultado con la suma realizada.
+	 */
 	public static int[] guardarNumeroArreglo(int[] numero, int desplazo, int[] resultado) {
 		int longitud = numero.length;
 
@@ -155,7 +174,13 @@ public class DivideVencerasI {
 		return resultado;
 	}
 
-
+	/**
+	 * Realiza la multiplicación de dos arreglos de números enteros en el estilo americano.
+	 *
+	 * @param arreglo1 El primer arreglo de números enteros.
+	 * @param arreglo2 El segundo arreglo de números enteros.
+	 * @return El arreglo resultado de la multiplicación.
+	 */
 	public static int[] americano(int arreglo1[], int arreglo2[]) {
 		int k = arreglo1.length + arreglo2.length - 1;
 		int pos = arreglo1.length + arreglo2.length - 1;
@@ -178,7 +203,11 @@ public class DivideVencerasI {
 		return resultado;
 	}
 
-
+	/**
+	 * Ordena el arreglo resultado de manera adecuada.
+	 *
+	 * @param resultado El arreglo que se desea ordenar.
+	 */
 	public static void ordernarArreglo(int[] resultado) {
 
 		for (int i = resultado.length - 1; i >= 0; i--) {
