@@ -1,79 +1,204 @@
 package co.edu.uniquindio.analisis.proyectosegundo.metodos;
 
+import java.util.Arrays;
+
 public class DivideVencerasI {
 
-	public static void imprimirArreglo(int[] arr) {
-		for (int i = 0; i < arr.length; i++) {
-			System.out.print(arr[i]);
+	public int[] MultiplicacionDivideYVenceras1(int[] num1, int[] num2) {
+		int tam = num1.length + num2.length;
+		int tamArreglos = 0;
+		int[] resultado = new int[tam];
+		int multiplicador = 0;
+		int multiplicado = 0;
+		int[] result;
+		int desplazo = 0;
+		
+		if (num1.length > num2.length) {
+			tamArreglos = num1.length;
+		} else {
+			tamArreglos = num2.length;
 		}
-		System.out.println();
+		
+		while ((tamArreglos & (tamArreglos - 1)) != 0) {
+			tamArreglos++;
+		}
+		
+		int[] aux1 = new int[tamArreglos];
+		int[] aux2 = new int[tamArreglos];
+		
+		for (int j = tamArreglos - num1.length, y = 0; j < aux1.length; j++, y++) {
+			aux1[j] = num1[y];
+		}
+		for (int j = tamArreglos - num2.length, y = 0; j < aux2.length; j++, y++) {
+			aux2[j] = num2[y];
+		}
+		StringBuilder sb = new StringBuilder();
+		StringBuilder sb2 = new StringBuilder();
+		
+		for (int i = 0; i < aux1.length / 2; i++) {
+			sb.append(aux1[i]);
+			sb2.append(aux2[i]);
+			String numeroConcatenadoStr = sb.toString();
+			String numeroConcatenadoStr2 = sb2.toString();
+			multiplicador = Integer.parseInt(numeroConcatenadoStr);
+			multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+		}
+		
+		desplazo = aux1.length;
+		
+		int[] multiplicadoA = guardarNumeroEnArreglo(multiplicado);
+		int[] multiplicadorA = guardarNumeroEnArreglo(multiplicador);
+		
+		result = americano(multiplicadoA, multiplicadorA);
+		guardarNumeroEnArreglo(result, desplazo, resultado);
+		sb = new StringBuilder();
+		sb2 = new StringBuilder();
+		
+		for (int i = 0, j = aux2.length / 2; i < aux1.length / 2; i++, j++) {
+			sb.append(aux1[i]);
+			sb2.append(aux2[j]);
+			String numeroConcatenadoStr = sb.toString();
+			String numeroConcatenadoStr2 = sb2.toString();
+			multiplicador = Integer.parseInt(numeroConcatenadoStr);
+			multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+		}
+		desplazo = aux1.length / 2;
+		multiplicadoA = guardarNumeroEnArreglo(multiplicado);
+		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
+		result = americano(multiplicadoA, multiplicadorA);
+		guardarNumeroEnArreglo(result, desplazo, resultado);
+		sb = new StringBuilder();
+		sb2 = new StringBuilder();
+		
+		for (int i = 0, j = aux2.length / 2; i < aux1.length / 2; i++, j++) {
+			sb.append(aux1[j]);
+			sb2.append(aux2[i]);
+			String numeroConcatenadoStr = sb.toString();
+			String numeroConcatenadoStr2 = sb2.toString();
+			multiplicador = Integer.parseInt(numeroConcatenadoStr);
+			multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+		}
+		multiplicadoA = guardarNumeroEnArreglo(multiplicado);
+		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
+		result = americano(multiplicadoA, multiplicadorA);
+		guardarNumeroEnArreglo(result, desplazo, resultado);
+		sb = new StringBuilder();
+		sb2 = new StringBuilder();
+		
+		for (int j = aux2.length / 2; j < aux1.length; j++) {
+			sb.append(aux1[j]);
+			sb2.append(aux2[j]);
+			String numeroConcatenadoStr = sb.toString();
+			String numeroConcatenadoStr2 = sb2.toString();
+			multiplicador = Integer.parseInt(numeroConcatenadoStr);
+			multiplicado = Integer.parseInt(numeroConcatenadoStr2);
+		}
+		desplazo = 0;
+		multiplicadoA = guardarNumeroEnArreglo(multiplicado);
+		multiplicadorA = guardarNumeroEnArreglo(multiplicador);
+		result = americano(multiplicadoA, multiplicadorA);
+		guardarNumeroEnArreglo(result, desplazo, resultado);
+		ordernarArreglo(resultado);
+		return resultado;
 	}
 
-	// Función para multiplicar dos arreglos que representan números
-	public int[] multiplicar(int[] a, int[] b) {
-		int n = a.length;
-
-		// Caso base: si ambos arreglos tienen una sola cifra, hacer la multiplicación
-		// directamente
-		if (n == 1) {
-			int[] resultado = new int[2];
-			resultado[1] = a[0] * b[0];
-			resultado[0] = resultado[1] / 10;
-			resultado[1] = resultado[1] % 10;
-			return resultado;
+	/**
+	 * Guarda un nï¿½mero entero en un arreglo, donde cada elemento del arreglo
+	 * representa un dï¿½gito del nï¿½mero.
+	 *
+	 * @param numero El nï¿½mero entero a ser guardado en el arreglo.
+	 * @return Un arreglo de enteros que representa el nï¿½mero.
+	 */
+	public static int[] guardarNumeroEnArreglo(int numero) {
+		// Convierte el nï¿½mero en una cadena
+		String numeroStr = String.valueOf(numero);
+		// Obtiene la longitud de la cadena
+		int longitud = numeroStr.length();
+		// Crea un arreglo con la longitud de la cadena
+		int[] arreglo = new int[longitud];
+		// Recorre cada dï¿½gito de la cadena y los guarda en el arreglo
+		for (int i = 0; i < longitud; i++) {
+			char digitoChar = numeroStr.charAt(i);
+			int digito = Character.getNumericValue(digitoChar);
+			arreglo[i] = digito;
 		}
-
-		// Dividir los arreglos en dos mitades
-		int[] w = new int[n / 2];
-		int[] x = new int[n / 2];
-		int[] y = new int[n / 2];
-		int[] z = new int[n / 2];
-		for (int i = 0; i < n / 2; i++) {
-			w[i] = a[i];
-			y[i] = b[i];
-		}
-		for (int i = n / 2; i < n; i++) {
-			x[i - n / 2] = a[i];
-			z[i - n / 2] = b[i];
-		}
-
-		// Multiplicar las mitades y sumar los resultados
-		int[] wy = multiplicar(w, y);
-		int[] wz = multiplicar(w, z);
-		int[] xy = multiplicar(x, y);
-		int[] xz = multiplicar(x, z);
-
-		// Desplazar los resultados
-		int[] resultado = new int[n * 2];
-		for (int i = 0; i < wy.length; i++) {
-			resultado[i] += wy[i];
-		}
-		for (int i = 0; i < wz.length; i++) {
-			resultado[i + n / 2] += wz[i];
-		}
-		for (int i = 0; i < xy.length; i++) {
-			resultado[i + n / 2] += xy[i];
-		}
-		for (int i = 0; i < xz.length; i++) {
-			resultado[i + n] += xz[i];
-		}
-
-		// Acarreos
-		for (int i = 0; i < resultado.length - 1; i++) {
-			resultado[i + 1] += resultado[i] / 10;
-			resultado[i] %= 10;
-		}
-
-		// Eliminar ceros sobrantes
-		int i = resultado.length - 1;
-		while (i > 0 && resultado[i] == 0) {
-			i--;
-		}
-		int[] resultadoFinal = new int[i + 1];
-		for (int j = 0; j <= i; j++) {
-			resultadoFinal[j] = resultado[j];
-		}
-
-		return resultadoFinal;
+		return arreglo;
 	}
+
+	/**
+	 * Guarda los dï¿½gitos de un nï¿½mero representado como arreglo en otro arreglo de
+	 * resultado, comenzando en la posiciï¿½n de desplazo especificada.
+	 *
+	 * @param numero    Arreglo que representa el nï¿½mero del cual se obtendrï¿½n los
+	 *                  dï¿½gitos.
+	 * @param desplazo  Posiciï¿½n de inicio en el arreglo de resultado para almacenar
+	 *                  los dï¿½gitos.
+	 * @param resultado Arreglo de resultado donde se guardarï¿½n los dï¿½gitos del
+	 *                  nï¿½mero.
+	 * @return El arreglo de resultado actualizado con los dï¿½gitos del nï¿½mero.
+	 */
+	public static int[] guardarNumeroEnArreglo(int[] numero, int desplazo, int[] resultado) {
+		int longitud = numero.length;
+		// Recorre el arreglo 'numero' en orden inverso y guarda los dï¿½gitos en el
+		// arreglo 'resultado'
+		// a partir de la posiciï¿½n 'desplazo'
+		for (int i = longitud - 1, j = resultado.length - desplazo - 1; i >= 0; i--, j--) {
+			resultado[j] += numero[i];
+		}
+		return resultado;
+	}
+
+	/**
+	 * Realiza la multiplicaciï¿½n de dos arreglos utilizando el algoritmo de la
+	 * multiplicaciï¿½n americana.
+	 *
+	 * @param arreglo1 Primer arreglo de dï¿½gitos a multiplicar.
+	 * @param arreglo2 Segundo arreglo de dï¿½gitos a multiplicar.
+	 * @return Arreglo resultante de la multiplicaciï¿½n de los dos arreglos.
+	 */
+	public static int[] americano(int arreglo1[], int arreglo2[]) {
+		int k = arreglo1.length + arreglo2.length - 1;
+		int pos = arreglo1.length + arreglo2.length - 1;
+		int resultado[] = new int[arreglo1.length + arreglo2.length];
+		// Realiza la multiplicaciï¿½n de los arreglos utilizando el algoritmo de la
+		// multiplicaciï¿½n americana
+		for (int i = arreglo1.length - 1; i >= 0; i--) {
+			for (int j = arreglo2.length - 1; j >= 0; j--) {
+				resultado[k] = resultado[k] + arreglo1[i] * arreglo2[j];
+				// Realiza el acarreo si el resultado es mayor a 9
+				if (resultado[k] > 9) {
+					resultado[k - 1] += resultado[k] / 10;
+					resultado[k] = resultado[k] % 10;
+				}
+				k--;
+			}
+			k = pos;
+			pos--;
+			k--;
+		}
+		return resultado;
+	}
+
+	/**
+	 * Realiza el ajuste del acarreo en caso de que haya dï¿½gitos mayores a 9 en el
+	 * arreglo.
+	 *
+	 * @param resultado Arreglo de dï¿½gitos a ordenar.
+	 */
+	public static void ordernarArreglo(int[] resultado) {
+		// Realiza el ajuste del acarreo en caso de que haya dï¿½gitos mayores a 9
+		for (int i = resultado.length - 1; i >= 0; i--) {
+			// Verifica si el dï¿½gito actual es mayor a 9
+			if (resultado[i] > 9) {
+				// Realiza el acarreo dividiendo el dï¿½gito por 10 y sumando el cociente al
+				// dï¿½gito anterior
+				resultado[i - 1] += resultado[i] / 10;
+				// Almacena el residuo de la divisiï¿½n en el dï¿½gito actual
+				resultado[i] = resultado[i] % 10;
+			} else {
+				// Si el dï¿½gito no es mayor a 9, no es necesario realizar el acarreo
+			}
+		}
+	}
+
 }

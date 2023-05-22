@@ -1,35 +1,28 @@
 package co.edu.uniquindio.analisis.proyectosegundo.metodos;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Egipcia {
 
-	public int[] egipcio(int[] arreglo1, int[] arreglo2) {
+	public static int[] multiplyEgipcian(int[] arr1, int[] arr2) {
+	    int m = arr1.length;
+	    int n = arr2.length;
+	    int[] result = new int[m + n];
 
-		// Calcular el tamaño del resultado
-		int resultadoTamano = arreglo1.length + arreglo2.length - 1;
+	    for (int i = m - 1; i >= 0; i--) {
+	        int carry = 0;
 
-		// Inicializar el arreglo de resultado
-		int[] resultado = new int[resultadoTamano];
+	        for (int j = n - 1; j >= 0; j--) {
+	            int product = arr1[i] * arr2[j] + carry + result[i + j + 1];
+	            carry = product / 10;
+	            result[i + j + 1] = product % 10;
+	        }
 
-		// Llamada recursiva al método egipcioAux
-		egipcioAux(arreglo1, arreglo2, resultado, 0, 0);
+	        result[i] += carry;
+	    }
 
-		return resultado;
+	    return result;
 	}
-
-	// Método auxiliar recursivo para el algoritmo egipcio
-	private static void egipcioAux(int[] arreglo1, int[] arreglo2, int[] resultado, int i, int j) {
-
-		// Caso base
-		if (i >= arreglo1.length || j >= arreglo2.length) {
-			return;
-		}
-
-		// Realizar la multiplicación y sumar al resultado parcial
-		resultado[i + j] += arreglo1[i] * arreglo2[j];
-
-		// Llamar recursivamente a egipcioAux con los nuevos valores de i y j
-		egipcioAux(arreglo1, arreglo2, resultado, i + 1, j);
-		egipcioAux(arreglo1, arreglo2, resultado, i, j + 1);
-	}
-
 }

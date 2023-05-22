@@ -3,8 +3,10 @@ package co.edu.uniquindio.analisis.proyectosegundo.metodos;
 public class AmericanaEstaticaRecursiva {
 
 	public int[] multiplicacionAmericana(int[] arreglo1, int[] arreglo2) {
+		
 		int[] resultado = new int[arreglo1.length + arreglo2.length];
 		multiplicacionAmericanaRecursiva(arreglo1, arreglo2, resultado, arreglo1.length - 1, arreglo2.length - 1);
+		
 		return resultado;
 	}
 
