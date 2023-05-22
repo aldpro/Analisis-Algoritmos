@@ -2,78 +2,116 @@ package co.edu.uniquindio.analisis.proyectosegundo.metodos;
 
 public class DivideVencerasI {
 
-	public static void imprimirArreglo(int[] arr) {
-		for (int i = 0; i < arr.length; i++) {
-			System.out.print(arr[i]);
+	public int[] divideVenceras1(int vec1[],int vec2[],int n) {
+		int[] resultado, x, y, z, w, r, auxr, s, auxs, t, auxt, u, res, res2, res3;
+		if(n==2)
+		{
+			resultado = AlgoritmoTradicional(vec1,vec2,n);
+			return resultado;
+		}else{
+			x = new int[(n + 1) / 2];
+			y = new int[(n + 1) / 2];
+			z = new int[(n + 1) / 2];
+			w = new int[(n + 1) / 2];
+			for (int i = 0; i < (n + 1) / 2; i++) {
+				w[i] = vec1[i];
+				y[i] = vec2[i];
+				x[i] = vec1[i + (n + 1) / 2];
+				z[i] = vec2[i + (n + 1) / 2];
+			}
+			r = new int[2 * n];
+			auxr = new int[2 * n];
+			iniceros(r, 2 * n);
+			auxr = divideVenceras1(w, y, (n + 1) / 2);
+			for (int i = 0; i < 2 * n; i++) {
+				r[i] = auxr[i];
+			}
+			s = new int[n + (n + 1) / 2];
+			auxs = new int[n + (n + 1) / 2];
+			iniceros(s, n + (n + 1) / 2);
+			auxs = divideVenceras1(w, z, (n + 1) / 2);
+			for (int i = 0; i < n + (n + 1) / 2; i++) {
+				s[i] = auxs[i];
+			}
+			t = new int[(n + 1) / 2 + n];
+			auxt = new int[(n + 1) / 2 + n];
+			iniceros(t, (n + 1) / 2 + n);
+			auxt = divideVenceras1(x, y, (n + 1) / 2);
+			for (int i = 0; i < (n + 1) / 2 + n; i++) {
+				t[i] = auxt[i];
+			}
+			u = new int[n];
+			iniceros(u, n);
+			u = divideVenceras1(x, z, (n + 1) / 2);
+			res = new int[2 * n];
+			iniceros(res, 2 * n);
+			res = suma(r, 2 * n, s, n + (n + 1) / 2);
+			res2 = new int[(n + 1) / 2 + n];
+			iniceros(res2, (n + 1) / 2 + n);
+			res2 = suma(t, (n + 1) / 2 + n, u, n);
+			res3 = new int[2 * n];
+			iniceros(res3, 2 * n);
+			res3 = suma(res, 2 * n, res2, (n + 1) / 2 + n);
+			return res3;
 		}
-		System.out.println();
 	}
 
-	// Función para multiplicar dos arreglos que representan números
-	public int[] multiplicar(int[] a, int[] b) {
-		int n = a.length;
+	void iniceros(int arreglo[],int tamano)
+	{
+		for(int i=0; i<tamano; i++)
+		{
+			arreglo[i]=0;
+		}
+	}
 
-		// Caso base: si ambos arreglos tienen una sola cifra, hacer la multiplicación
-		// directamente
-		if (n == 1) {
-			int[] resultado = new int[2];
-			resultado[1] = a[0] * b[0];
-			resultado[0] = resultado[1] / 10;
-			resultado[1] = resultado[1] % 10;
+	public int[] AlgoritmoTradicional(int[] vec1, int[] vec2, int n) {
+		int[] resultado = new int[n * 2 + 1];
+		int carry = 0;
+
+		for (int i = n - 1; i >= 0; i--) {
+			int multiplicacion = vec1[i] * vec2[i] + carry;
+			resultado[i + n] = multiplicacion % 10;
+			carry = multiplicacion / 10;
+		}
+
+		for (int i = n - 1; i >= 0; i--) {
+			int suma = resultado[i + n] + resultado[i] + carry;
+			resultado[i + n] = suma % 10;
+			carry = suma / 10;
+		}
+
+		if (carry > 0) {
+			resultado[0] = carry;
+		}
+
+		return resultado;
+	}
+
+	public int[] suma(int[] arreglo1, int tamano1, int[] arreglo2, int tamano2) {
+		int maxTamano = Math.max(tamano1, tamano2);
+		int[] resultado = new int[maxTamano];
+		int carry = 0;
+
+		for (int i = 0; i < maxTamano; i++) {
+			int sum = carry;
+			if (i < tamano1) {
+				sum += arreglo1[i];
+			}
+			if (i < tamano2) {
+				sum += arreglo2[i];
+			}
+
+			resultado[i] = sum % 10;
+			carry = sum / 10;
+		}
+
+		if (carry > 0) {
+			int[] resultadoFinal = new int[maxTamano];
+			resultadoFinal[0] = carry;
+			System.arraycopy(resultado, 0, resultadoFinal, 1, maxTamano);
+			return resultadoFinal;
+		} else {
 			return resultado;
 		}
-
-		// Dividir los arreglos en dos mitades
-		int[] w = new int[n / 2];
-		int[] x = new int[n / 2];
-		int[] y = new int[n / 2];
-		int[] z = new int[n / 2];
-		for (int i = 0; i < n / 2; i++) {
-			w[i] = a[i];
-			y[i] = b[i];
-		}
-		for (int i = n / 2; i < n; i++) {
-			x[i - n / 2] = a[i];
-			z[i - n / 2] = b[i];
-		}
-
-		// Multiplicar las mitades y sumar los resultados
-		int[] wy = multiplicar(w, y);
-		int[] wz = multiplicar(w, z);
-		int[] xy = multiplicar(x, y);
-		int[] xz = multiplicar(x, z);
-
-		// Desplazar los resultados
-		int[] resultado = new int[n * 2];
-		for (int i = 0; i < wy.length; i++) {
-			resultado[i] += wy[i];
-		}
-		for (int i = 0; i < wz.length; i++) {
-			resultado[i + n / 2] += wz[i];
-		}
-		for (int i = 0; i < xy.length; i++) {
-			resultado[i + n / 2] += xy[i];
-		}
-		for (int i = 0; i < xz.length; i++) {
-			resultado[i + n] += xz[i];
-		}
-
-		// Acarreos
-		for (int i = 0; i < resultado.length - 1; i++) {
-			resultado[i + 1] += resultado[i] / 10;
-			resultado[i] %= 10;
-		}
-
-		// Eliminar ceros sobrantes
-		int i = resultado.length - 1;
-		while (i > 0 && resultado[i] == 0) {
-			i--;
-		}
-		int[] resultadoFinal = new int[i + 1];
-		for (int j = 0; j <= i; j++) {
-			resultadoFinal[j] = resultado[j];
-		}
-
-		return resultadoFinal;
 	}
 }
