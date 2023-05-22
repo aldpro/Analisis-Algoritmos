@@ -1,4 +1,4 @@
-package co.edu.analisis;
+package co.edu.uniquindio.analisis.proyectosegundo;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -18,9 +18,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
-
-import co.edu.uniquindio.analisis.proyectosegundo.Captura;
-import co.edu.uniquindio.analisis.proyectosegundo.Metodo;
 
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
@@ -52,8 +49,8 @@ import org.jfree.util.SortOrder;
 public class Graficacion extends ApplicationFrame {
 
 	final static int M = 16;
-	final static int MZ = 10;
-	static long[][] registro = new long[M][MZ];
+	final static int P = 10;
+	static long[][] registro = new long[M][P];
 	static ArrayList<Object[]> listaPromedio = new ArrayList<Object[]>();
 	static ArrayList<Object[]> listaOrdenado = new ArrayList<Object[]>();
 	
@@ -89,11 +86,11 @@ public class Graficacion extends ApplicationFrame {
 		long suma = 0;
 		long promedio = 0;
 
-		for (int i = 0; i < MZ; i++) {
+		for (int i = 0; i < P; i++) {
 			suma += registro[metodo-1][i];
 		}
 		
-		promedio = suma / MZ;
+		promedio = suma / P;
 		nombre = obtenernombre(metodo);
 		
 		Object[] respuesta = { nombre, promedio };
@@ -113,7 +110,7 @@ public class Graficacion extends ApplicationFrame {
 	
 	public static void recorrer(int metodo) {
 		
-		for (int j = 1; j <= MZ; j++) {
+		for (int j = 1; j <= P; j++) {
 			double[][] matrizn = leerMatrix("Matriz " + j + ".txt");
 			double[][] matrizm = leerMatrix("Matriz " + j + ".txt");
 			
@@ -254,9 +251,9 @@ public class Graficacion extends ApplicationFrame {
 
 		tableModel2.addColumn("Método");
 
-		int[] elevacion = new int[MZ];
+		int[] elevacion = new int[P];
 
-		for (int i = 1; i <= MZ; i++) {
+		for (int i = 1; i <= P; i++) {
 		    int resultado = (int) Math.pow(2, i);
 
 		    tableModel2.addColumn("t: " + i + "[" + resultado + "]");
@@ -383,11 +380,11 @@ public class Graficacion extends ApplicationFrame {
 		
 		long suma = 0;
 
-		for (int i = 0; i < MZ; i++) {
+		for (int i = 0; i < P; i++) {
 			suma += registro[metodo][i];
 		}
 		
-		return suma / MZ;
+		return suma / P;
 	}
 	
 	public static long rango(int metodo) {

@@ -9,47 +9,57 @@ import java.util.Arrays;
 public class Aplicacion {
 
 	public static void main(String[] args) {
-		
-		int n = 60;
 
-		int[] a = leerCasosEstatico("Caso" + "-" + 6 + ".txt", n);
-		int[] b = leerCasosEstatico("Caso" + "-" + 6 + ".txt", n);
-		
-		ArrayList<Integer> dinamicoa = leerCasosDinamico("Caso" + "-" + 6 + ".txt", n);
-		ArrayList<Integer> dinamicob = leerCasosDinamico("Caso" + "-" + 6 + ".txt", n);
-		
-		for (int i = 1; i <= 15; i++) {
-			resultado(a, b, dinamicoa, dinamicob, i);
+		for (int n = (8 + 1); n <= 72; n += (8 + 1)) {
+
+			int[] a = leerCasosEstatico("Caso" + "-" + 8 + ".txt", n);
+			int[] b = leerCasosEstatico("Caso" + "-" + 8 + ".txt", n);
+
+			ArrayList<Integer> dinamicoa = leerCasosDinamico("Caso" + "-" + 8 + ".txt", n);
+			ArrayList<Integer> dinamicob = leerCasosDinamico("Caso" + "-" + 8 + ".txt", n);
+
+			for (int i = 1; i <= 15; i++) {
+				resultado(a, b, dinamicoa, dinamicob, i);
+			}
 		}
 	}
 
-	public static void resultado(int[] a, int[] b, ArrayList<Integer> dinamicoa, ArrayList<Integer> dinamicob, int metodo) {
-		Captura captura = new Captura();
+	public static String obtenerNombre(int metodo) {
 		Metodo mapa = new Metodo();
+
+		String nombreMetodo = " ";
+		nombreMetodo = mapa.obtenerNombre(metodo);
+
+		return nombreMetodo;
+	}
+	
+	public static void resultado(int[] a, int[] b, ArrayList<Integer> dinamicoa, ArrayList<Integer> dinamicob,
+			int metodo) {
+		Captura captura = new Captura();
 
 		String nombreMetodo = " ";
 		String nombreArregloa = "~A";
 		String nombreArreglob = "~B";
 		String nombreResultado = "~C";
 
-		nombreMetodo = mapa.obtenerNombre(metodo);
+		nombreMetodo = obtenerNombre(metodo);
 		Object[] resultado = captura.consultaMetodo(a, b, dinamicoa, dinamicob, metodo);
 
 		long tiempo = (long) resultado[0];
 
 		System.out.println("Numero del metodo: " + metodo);
-		
+
 		if (metodo == 2 || metodo == 4 || metodo == 6 || metodo == 8) {
-			
+
 			ArrayList<Integer> respuesta = (ArrayList<Integer>) resultado[1];
-			
+
 			imprimirDinamico(dinamicoa, nombreArregloa);
 			imprimirDinamico(dinamicob, nombreArreglob);
 			imprimirDinamico(respuesta, nombreResultado);
-		}else {
-			
+		} else {
+
 			int[] respuesta = (int[]) resultado[1];
-			
+
 			imprimirArreglo(a, nombreArregloa);
 			imprimirArreglo(b, nombreArreglob);
 			imprimirArreglo(respuesta, nombreResultado);
@@ -59,13 +69,11 @@ public class Aplicacion {
 	}
 
 	public static void imprimirDinamico(ArrayList<Integer> arreglo, String nombre) {
-	String formattedString = Arrays.toString(arreglo.toArray())
-	        .replace("[", "")
-	        .replace("]", "");
-	System.out.println("[" + nombre + "]: " + "[" + formattedString + "]");
-	System.out.println("\n");
+		String formattedString = Arrays.toString(arreglo.toArray()).replace("[", "").replace("]", "");
+		System.out.println("[" + nombre + "]: " + "[" + formattedString + "]");
+		System.out.println("\n");
 	}
-	
+
 	public static void imprimirArreglo(int[] arreglo, String nombre) {
 		System.out.println("[" + nombre + "]: " + Arrays.toString(arreglo));
 		System.out.println("\n");
@@ -86,17 +94,17 @@ public class Aplicacion {
 	}
 
 	private static ArrayList<Integer> leerCasosDinamico(String fileName, int n) {
-	    ArrayList<Integer> arrayList = new ArrayList<>();
-	    try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-	        String line = reader.readLine();
-	        String[] digits = line.substring(1, line.length() - 1).split(", ");
-	        for (int i = 0; i < n; i++) {
-	            arrayList.add(Integer.parseInt(digits[i]));
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	    return arrayList;
+		ArrayList<Integer> arrayList = new ArrayList<>();
+		try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+			String line = reader.readLine();
+			String[] digits = line.substring(1, line.length() - 1).split(", ");
+			for (int i = 0; i < n; i++) {
+				arrayList.add(Integer.parseInt(digits[i]));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return arrayList;
 	}
 
 //	public static void main(String[] args) {
